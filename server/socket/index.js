@@ -14,13 +14,14 @@ export const initializeSocket = (httpServer) => {
     },
     pingTimeout: 60000,
     pingInterval: 25000,
+    transports: ["polling"], // WebSockets not supported on Render free tier
   });
 
   io.use(socketAuth);
 
   io.on("connection", (socket) => {
     console.log(
-      `✓ Socket connected: ${socket.id} | User: ${socket.userId} | Role: ${socket.userRole}`
+      `✓ Socket connected: ${socket.id} | User: ${socket.userId} | Role: ${socket.userRole}`,
     );
 
     socket.join(`user:${socket.userId}`);

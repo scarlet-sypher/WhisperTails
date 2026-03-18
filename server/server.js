@@ -36,9 +36,17 @@ const PORT = process.env.PORT || 8000;
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.set("trust proxy", 1);
+
 app.use(
   cors({
-    origin: [CLIENT_URL],
+    origin: (origin, callback) => {
+      const allowed = [CLIENT_URL, "https://whisper-tails.vercel.app"];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   }),

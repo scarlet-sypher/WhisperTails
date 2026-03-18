@@ -15,9 +15,10 @@ class SocketService {
 
     this.socket = io(API_URL, {
       withCredentials: true,
-      autoConnect: false, // 🔥 IMPORTANT
+      autoConnect: false,
+      transports: ["polling"], // match server
       auth: {
-        token, // 🔥 JWT passed explicitly
+        token,
       },
     });
 
