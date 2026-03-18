@@ -86,36 +86,27 @@ const unifiedAuthController = {
     }
   },
 
-  // googleOwnerAuth: (req, res, next) => {
-  //   req.session.signupRole = "owner";
-
-  //   passport.authenticate("google", {
-  //     scope: ["profile", "email"],
-  //   })(req, res, next);
-  // },
-
-  // googleShelterAuth: (req, res, next) => {
-  //   req.session.signupRole = "shelter";
-
-  //   passport.authenticate("google", {
-  //     scope: ["profile", "email"],
-  //   })(req, res, next);
-  // },
-
-  // googleCommonAuth: (req, res, next) => {
-  //   req.session.signupRole = null;
-
-  //   passport.authenticate("google", {
-  //     scope: ["profile", "email"],
-  //   })(req, res, next);
-  // },
-
-  googleAuth: (req, res, next) => {
-    const role = req.query.state;
+  googleOwnerAuth: (req, res, next) => {
+    req.session.signupRole = "owner";
 
     passport.authenticate("google", {
       scope: ["profile", "email"],
-      state: role,
+    })(req, res, next);
+  },
+
+  googleShelterAuth: (req, res, next) => {
+    req.session.signupRole = "shelter";
+
+    passport.authenticate("google", {
+      scope: ["profile", "email"],
+    })(req, res, next);
+  },
+
+  googleCommonAuth: (req, res, next) => {
+    req.session.signupRole = null;
+
+    passport.authenticate("google", {
+      scope: ["profile", "email"],
     })(req, res, next);
   },
 

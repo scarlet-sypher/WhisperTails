@@ -170,7 +170,7 @@ const ShelterSignup = () => {
         <button
           type="button"
           onClick={() => {
-            window.location.href = `${API_URL}/api/auth/google?state=shelter`;
+            window.location.href = `${API_URL}/api/auth/google/shelter`;
           }}
           className="w-full py-2 mb-4 rounded-lg font-medium
           flex items-center justify-center gap-2

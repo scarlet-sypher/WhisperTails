@@ -170,7 +170,7 @@ const OwnerSignup = () => {
         <button
           type="button"
           onClick={() => {
-            window.location.href = `${API_URL}/api/auth/google?state=owner`;
+            window.location.href = `${API_URL}/api/auth/google/owner`;
           }}
           className="w-full py-2 mb-4 rounded-lg font-medium
           flex items-center justify-center gap-2
