@@ -24,6 +24,7 @@ import AdoptedPetDetails from "../../components/Owners/MyPets/AdoptedPetDetails"
 import OwnerToast from "../../Common/OwnerToast";
 
 import OwnerBlogEditor from "../../components/Owners/Blog/OwnerBlogEditor";
+import FullPageError from "../../Common/FullPageError";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -100,7 +101,7 @@ const OwnerDashboard = () => {
       await axios.post(
         `${API_URL}/api/auth/logout`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       window.location.href = "/login";
@@ -197,8 +198,8 @@ const OwnerDashboard = () => {
                   {tab === "mypets"
                     ? "My Pets"
                     : tab === "blogs"
-                    ? "Blogs"
-                    : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                      ? "Blogs"
+                      : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
               ))}
             </div>
