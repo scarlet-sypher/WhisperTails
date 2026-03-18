@@ -87,26 +87,25 @@ const unifiedAuthController = {
   },
 
   googleOwnerAuth: (req, res, next) => {
-    req.session.signupRole = "owner";
-
     passport.authenticate("google", {
       scope: ["profile", "email"],
+      state: Buffer.from(JSON.stringify({ role: "owner" })).toString("base64"),
     })(req, res, next);
   },
 
   googleShelterAuth: (req, res, next) => {
-    req.session.signupRole = "shelter";
-
     passport.authenticate("google", {
       scope: ["profile", "email"],
+      state: Buffer.from(JSON.stringify({ role: "shelter" })).toString(
+        "base64",
+      ),
     })(req, res, next);
   },
 
   googleCommonAuth: (req, res, next) => {
-    req.session.signupRole = null;
-
     passport.authenticate("google", {
       scope: ["profile", "email"],
+      state: Buffer.from(JSON.stringify({ role: null })).toString("base64"),
     })(req, res, next);
   },
 

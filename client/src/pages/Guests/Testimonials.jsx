@@ -103,7 +103,7 @@ const Testimonials = () => {
         onUpdate: (self) => {
           const index = Math.min(
             testimonials.length - 1,
-            Math.floor(self.progress * testimonials.length)
+            Math.floor(self.progress * testimonials.length),
           );
           setActiveIndex(index);
         },
@@ -259,8 +259,8 @@ const Testimonials = () => {
                     activeIndex === i
                       ? "scale(1)"
                       : i < activeIndex
-                      ? "scale(0.9) translateY(-40px)"
-                      : "scale(1.05) translateY(40px)",
+                        ? "scale(0.9) translateY(-40px)"
+                        : "scale(1.05) translateY(40px)",
                   transition: "all 0.6s ease",
                   pointerEvents: activeIndex === i ? "auto" : "none",
                 }}
@@ -466,7 +466,7 @@ const Testimonials = () => {
           </div>
         )}
 
-        <style jsx>
+        <style>
           {`
             @keyframes bounce {
               0%,

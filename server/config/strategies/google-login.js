@@ -20,7 +20,15 @@ const googleStrategy = new GoogleStrategy(
       const email = profile.emails[0].value;
       const name = profile.displayName;
       const avatar = profile.photos?.[0]?.value || "default_url";
-      const role = req.session.signupRole;
+      let role = null;
+      try {
+        const stateData = JSON.parse(
+          Buffer.from(req.query.state, "base64").toString(),
+        );
+        role = stateData.role;
+      } catch {
+        role = req.session?.signupRole || null;
+      }
 
       const existingCheck = await CheckLogin.findOne({ email });
 
