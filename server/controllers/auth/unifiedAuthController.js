@@ -112,12 +112,10 @@ const unifiedAuthController = {
   googleCallback: (req, res, next) => {
     passport.authenticate("google", (err, user, info) => {
       if (err) {
-        console.error("Google callback error:", err);
         return res.redirect(
           `${process.env.CLIENT_URL}/login?error=auth_failed`,
         );
       }
-
       if (!user) {
         const message = info?.message || "authentication_failed";
         return res.redirect(`${process.env.CLIENT_URL}/login?error=${message}`);
@@ -127,12 +125,16 @@ const unifiedAuthController = {
       setTokenCookie(res, token);
 
       if (user.role === "owner") {
-        return res.redirect(`${process.env.CLIENT_URL}/owner-dashboard`);
+        return res.redirect(
+          `${process.env.CLIENT_URL}/owner-dashboard?token=${token}`,
+        );
       } else if (user.role === "shelter") {
-        return res.redirect(`${process.env.CLIENT_URL}/shelter-dashboard`);
+        return res.redirect(
+          `${process.env.CLIENT_URL}/shelter-dashboard?token=${token}`,
+        );
       }
 
-      return res.redirect(`${process.env.CLIENT_URL}/dashboard`);
+      return res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
     })(req, res, next);
   },
 

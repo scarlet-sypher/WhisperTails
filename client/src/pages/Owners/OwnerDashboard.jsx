@@ -39,6 +39,15 @@ const OwnerDashboard = () => {
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchProfile();
   }, []);
 
@@ -50,8 +59,10 @@ const OwnerDashboard = () => {
 
   const fetchProfile = async () => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(`${API_URL}/api/auth/owner/profile`, {
         withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.data.success) {

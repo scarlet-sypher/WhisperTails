@@ -42,9 +42,17 @@ const ShelterDashboard = () => {
   const { on } = useSocket();
 
   useEffect(() => {
-    fetchAllData();
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }, []);
 
+  useEffect(() => {
+    fetchAllData();
+  }, []);
   useEffect(() => {
     fetchAllData();
 
@@ -66,8 +74,10 @@ const ShelterDashboard = () => {
     setLoading(true);
     setError("");
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(`${API_URL}/api/shelter/dashboard`, {
         withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.data.success) {
@@ -100,7 +110,7 @@ const ShelterDashboard = () => {
       await axios.post(
         `${API_URL}/api/auth/logout`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
       window.location.href = "/login";
     } catch (err) {
