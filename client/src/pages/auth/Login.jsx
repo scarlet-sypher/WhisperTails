@@ -31,7 +31,7 @@ const Login = () => {
           email: formData.email,
           password: formData.password,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (response.data.success) {
@@ -81,7 +81,7 @@ const Login = () => {
         <button
           type="button"
           onClick={() => {
-            window.location.href = `${API_URL}/api/auth/google/login`;
+            window.location.href = `${API_URL}/api/auth/google`;
           }}
           className="w-full py-2 mb-5 rounded-lg font-medium
           flex items-center justify-center gap-2

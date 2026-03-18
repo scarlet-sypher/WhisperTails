@@ -54,7 +54,7 @@ const unifiedAuthController = {
 
       const isValidPassword = await bcrypt.compare(
         password,
-        userLogin.password
+        userLogin.password,
       );
       if (!isValidPassword) {
         return res.status(401).json({
@@ -86,27 +86,36 @@ const unifiedAuthController = {
     }
   },
 
-  googleOwnerAuth: (req, res, next) => {
-    req.session.signupRole = "owner";
+  // googleOwnerAuth: (req, res, next) => {
+  //   req.session.signupRole = "owner";
+
+  //   passport.authenticate("google", {
+  //     scope: ["profile", "email"],
+  //   })(req, res, next);
+  // },
+
+  // googleShelterAuth: (req, res, next) => {
+  //   req.session.signupRole = "shelter";
+
+  //   passport.authenticate("google", {
+  //     scope: ["profile", "email"],
+  //   })(req, res, next);
+  // },
+
+  // googleCommonAuth: (req, res, next) => {
+  //   req.session.signupRole = null;
+
+  //   passport.authenticate("google", {
+  //     scope: ["profile", "email"],
+  //   })(req, res, next);
+  // },
+
+  googleAuth: (req, res, next) => {
+    const role = req.query.state;
 
     passport.authenticate("google", {
       scope: ["profile", "email"],
-    })(req, res, next);
-  },
-
-  googleShelterAuth: (req, res, next) => {
-    req.session.signupRole = "shelter";
-
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
-    })(req, res, next);
-  },
-
-  googleCommonAuth: (req, res, next) => {
-    req.session.signupRole = null;
-
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
+      state: role,
     })(req, res, next);
   },
 
@@ -115,7 +124,7 @@ const unifiedAuthController = {
       if (err) {
         console.error("Google callback error:", err);
         return res.redirect(
-          `${process.env.CLIENT_URL}/login?error=auth_failed`
+          `${process.env.CLIENT_URL}/login?error=auth_failed`,
         );
       }
 

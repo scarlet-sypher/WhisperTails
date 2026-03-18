@@ -20,7 +20,7 @@ const googleStrategy = new GoogleStrategy(
       const email = profile.emails[0].value;
       const name = profile.displayName;
       const avatar = profile.photos?.[0]?.value || "default_url";
-      const role = req.session.signupRole;
+      const role = req.query.state;
 
       const existingCheck = await CheckLogin.findOne({ email });
 
@@ -116,7 +116,7 @@ const googleStrategy = new GoogleStrategy(
       console.error("Google Strategy Error:", error);
       return done(error, null);
     }
-  }
+  },
 );
 
 export default googleStrategy;

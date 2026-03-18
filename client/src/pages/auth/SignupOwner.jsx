@@ -31,7 +31,7 @@ const OwnerSignup = () => {
       const { data } = await axios.post(
         `${API_URL}/api/auth/owner/check-email`,
         { email: formData.email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (data.success) {
@@ -76,7 +76,7 @@ const OwnerSignup = () => {
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (data.success) {
@@ -109,7 +109,7 @@ const OwnerSignup = () => {
       const { data } = await axios.post(
         `${API_URL}/api/auth/owner/verify-otp`,
         { email: formData.email, otp: formData.otp },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (data.success) {
@@ -136,7 +136,7 @@ const OwnerSignup = () => {
       const { data } = await axios.post(
         `${API_URL}/api/auth/owner/resend-otp`,
         { email: formData.email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (data.success) {
@@ -170,7 +170,7 @@ const OwnerSignup = () => {
         <button
           type="button"
           onClick={() => {
-            window.location.href = `${API_URL}/api/auth/google/owner`;
+            window.location.href = `${API_URL}/api/auth/google?state=owner`;
           }}
           className="w-full py-2 mb-4 rounded-lg font-medium
           flex items-center justify-center gap-2
