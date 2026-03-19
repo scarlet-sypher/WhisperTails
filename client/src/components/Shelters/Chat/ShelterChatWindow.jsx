@@ -10,6 +10,7 @@ import { useSocket } from "../../../../hooks/useSocket";
 import ShelterChatHeader from "./ShelterChatHeader";
 import ShelterChatInput from "./ShelterChatInput";
 import ConfirmationDialog from "../../../Common/ConfirmationDialog";
+import axiosInstance from "../../../utils/axiosInstance";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -102,12 +103,8 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
         ) {
           setTimeout(async () => {
             try {
-              await fetch(
-                `${API_URL}/api/chat/messages/${data.message._id}/read`,
-                {
-                  method: "PATCH",
-                  credentials: "include",
-                }
+              await axiosInstance.patch(
+                `/api/chat/messages/${data.message._id}/read`,
               );
             } catch (error) {
               console.error("Mark read error:", error);
@@ -205,8 +202,8 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
                     { userId: data.userId, deliveredAt: data.deliveredAt },
                   ],
                 }
-              : m
-          )
+              : m,
+          ),
         );
       }
     });
@@ -223,8 +220,8 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
                     { userId: data.readBy, readAt: data.readAt },
                   ],
                 }
-              : m
-          )
+              : m,
+          ),
         );
       }
     });
@@ -244,16 +241,13 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
         msg.senderId?._id?.toString() !== currentUserId?.toString() &&
         (!msg.deliveredTo ||
           !msg.deliveredTo.some(
-            (d) => d.userId?.toString() === currentUserId?.toString()
-          ))
+            (d) => d.userId?.toString() === currentUserId?.toString(),
+          )),
     );
 
     undeliveredMessages.forEach(async (msg) => {
       try {
-        await fetch(`${API_URL}/api/chat/messages/${msg._id}/delivered`, {
-          method: "PATCH",
-          credentials: "include",
-        });
+        await axiosInstance.patch(`/api/chat/messages/${msg._id}/delivered`);
       } catch (error) {
         console.error("Mark delivered error:", error);
       }
@@ -276,16 +270,12 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/chat/rooms/${room._id}/messages`,
-        {
-          credentials: "include",
-        }
+      const response = await axiosInstance.get(
+        `/api/chat/rooms/${room._id}/messages`,
       );
 
-      const data = await response.json();
-      if (data.success) {
-        setMessages(data.data.messages);
+      if (response.data.success) {
+        setMessages(response.data.data.messages);
       }
     } catch (error) {
       console.error("Fetch messages error:", error);
@@ -369,18 +359,13 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
     clearImage();
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/chat/rooms/${room._id}/messages`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
+      const response = await axiosInstance.post(
+        `/api/chat/rooms/${room._id}/messages`,
+        formData,
       );
 
-      const data = await response.json();
-      if (data.success) {
-        setMessages((prev) => [...prev, data.data]);
+      if (response.data.success) {
+        setMessages((prev) => [...prev, response.data.data]);
       }
     } catch (error) {
       console.error("Send message error:", error);
@@ -410,16 +395,11 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
       message: "Are you sure you want to block this chat?",
       onConfirm: async () => {
         try {
-          const response = await fetch(
-            `${API_URL}/api/chat/rooms/${room._id}/block`,
-            {
-              method: "PATCH",
-              credentials: "include",
-            }
+          const response = await axiosInstance.patch(
+            `/api/chat/rooms/${room._id}/block`,
           );
 
-          const data = await response.json();
-          if (data.success) {
+          if (response.data.success) {
             setShowMenu(false);
           }
         } catch (error) {
@@ -436,16 +416,11 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
       message: "Are you sure you want to close this chat?",
       onConfirm: async () => {
         try {
-          const response = await fetch(
-            `${API_URL}/api/chat/rooms/${room._id}/close`,
-            {
-              method: "PATCH",
-              credentials: "include",
-            }
+          const response = await axiosInstance.patch(
+            `/api/chat/rooms/${room._id}/close`,
           );
 
-          const data = await response.json();
-          if (data.success) {
+          if (response.data.success) {
             setShowMenu(false);
           }
         } catch (error) {
@@ -468,18 +443,12 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
 
   const handleDeleteMessage = async (messageId, deleteForEveryone) => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/chat/messages/${messageId}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ deleteForEveryone }),
-        }
+      const response = await axiosInstance.delete(
+        `/api/chat/messages/${messageId}`,
+        { data: { deleteForEveryone } },
       );
 
-      const data = await response.json();
-      if (data.success) {
+      if (response.data.success) {
         if (deleteForEveryone) {
           setMessages((prev) =>
             prev.map((m) =>
@@ -489,8 +458,8 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
                     deletedForEveryone: true,
                     content: "This message was deleted",
                   }
-                : m
-            )
+                : m,
+            ),
           );
         } else {
           setMessages((prev) => prev.filter((m) => m._id !== messageId));
@@ -536,18 +505,12 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
 
   const handleWallpaperChange = async (wallpaperUrl) => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/chat/rooms/${room._id}/wallpaper`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ wallpaper: wallpaperUrl }),
-        }
+      const response = await axiosInstance.patch(
+        `/api/chat/rooms/${room._id}/wallpaper`,
+        { wallpaper: wallpaperUrl },
       );
 
-      const data = await response.json();
-      if (data.success) {
+      if (response.data.success) {
         setWallpaper(wallpaperUrl);
         setShowWallpaperPicker(false);
       }
@@ -566,18 +529,13 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
     formData.append("wallpaper", file);
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/chat/rooms/${room._id}/wallpaper/upload`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
+      const response = await axiosInstance.post(
+        `/api/chat/rooms/${room._id}/wallpaper/upload`,
+        formData,
       );
 
-      const data = await response.json();
-      if (data.success) {
-        setWallpaper(data.wallpaperUrl);
+      if (response.data.success) {
+        setWallpaper(response.data.wallpaperUrl);
         setShowWallpaperPicker(false);
       }
     } catch (error) {
@@ -754,7 +712,7 @@ const ShelterChatWindow = ({ room, userRole, currentUserId }) => {
                         <button
                           onClick={() =>
                             setMessageMenu(
-                              messageMenu === message._id ? null : message._id
+                              messageMenu === message._id ? null : message._id,
                             )
                           }
                           className="p-1.5 rounded-full
