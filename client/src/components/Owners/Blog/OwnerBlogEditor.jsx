@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import {
   Upload,
   Image as ImageIcon,
@@ -37,9 +37,7 @@ const OwnerBlogEditor = ({ ownerName }) => {
 
   const fetchBlog = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/owner/blog`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/owner/blog");
 
       if (response.data.success && response.data.blog) {
         const blogData = response.data.blog;
@@ -147,8 +145,7 @@ const OwnerBlogEditor = ({ ownerName }) => {
       const endpoint = blog ? "/api/owner/blog" : "/api/owner/blog";
       const method = blog ? "put" : "post";
 
-      const response = await axios[method](`${API_URL}${endpoint}`, formData, {
-        withCredentials: true,
+      const response = await axiosInstance[method](endpoint, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

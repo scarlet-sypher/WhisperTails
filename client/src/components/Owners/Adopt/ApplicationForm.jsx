@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -55,9 +55,7 @@ const ApplicationForm = ({ onSubmit, initialData = {} }) => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/auth/owner/profile`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/auth/owner/profile");
       if (res.data.success) {
         const p = res.data.profile;
         setProfile(p);

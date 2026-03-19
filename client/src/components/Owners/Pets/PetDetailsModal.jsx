@@ -13,8 +13,7 @@ import {
   Trash2,
 } from "lucide-react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import axios from "axios";
-
+import axiosInstance from "../../../utils/axiosInstance";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const PetDetailsModal = ({ pet, onClose, onDelete, onEdit }) => {
@@ -62,9 +61,7 @@ const PetDetailsModal = ({ pet, onClose, onDelete, onEdit }) => {
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      const res = await axios.delete(`${API_URL}/api/owner/pets/${pet._id}`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.delete(`/api/owner/pets/${pet._id}`);
       if (res.data.success) {
         onDelete(pet._id);
         setShowDeleteConfirm(false);
@@ -129,7 +126,7 @@ const PetDetailsModal = ({ pet, onClose, onDelete, onEdit }) => {
               </div>
               <span
                 className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold ${getCategoryColor(
-                  pet.category
+                  pet.category,
                 )}`}
               >
                 {getCategoryIcon(pet.category)}
@@ -147,8 +144,8 @@ const PetDetailsModal = ({ pet, onClose, onDelete, onEdit }) => {
                   pet.status === "active"
                     ? "bg-green-500/20 text-green-400"
                     : pet.status === "resolved"
-                    ? "bg-blue-500/20 text-blue-400"
-                    : "bg-gray-500/20 text-gray-400"
+                      ? "bg-blue-500/20 text-blue-400"
+                      : "bg-gray-500/20 text-gray-400"
                 }`}
               >
                 {pet.status.charAt(0).toUpperCase() + pet.status.slice(1)}

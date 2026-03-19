@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { X, Loader2, MapPin, Mail, Phone, Check } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -24,10 +24,7 @@ const PetDetailDrawer = ({
   const fetchPetDetails = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/pets/${petId}`,
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.get(`/api/owner/adoption/pets/${petId}`);
       if (res.data.success) {
         setPet(res.data.data);
       }
@@ -402,12 +399,12 @@ const PetDetailDrawer = ({
                   pet.applicationStatus?.reason === "own_submitted"
                     ? "bg-linear-to-r from-yellow-500 to-yellow-600 text-white shadow-lg hover:shadow-xl active:scale-95"
                     : pet.applicationStatus?.disabled
-                    ? pet.applicationStatus.reason === "active_by_other"
-                      ? "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
-                      : pet.applicationStatus.reason === "own_approved"
-                      ? "bg-blue-600 text-white cursor-not-allowed"
-                      : "bg-gray-600 text-gray-300 cursor-not-allowed"
-                    : "bg-linear-to-r from-[#60519b] to-[#7d6ab8] text-white shadow-lg shadow-[#60519b]/30 hover:shadow-xl hover:shadow-[#60519b]/40 active:scale-95"
+                      ? pet.applicationStatus.reason === "active_by_other"
+                        ? "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
+                        : pet.applicationStatus.reason === "own_approved"
+                          ? "bg-blue-600 text-white cursor-not-allowed"
+                          : "bg-gray-600 text-gray-300 cursor-not-allowed"
+                      : "bg-linear-to-r from-[#60519b] to-[#7d6ab8] text-white shadow-lg shadow-[#60519b]/30 hover:shadow-xl hover:shadow-[#60519b]/40 active:scale-95"
                 }`}
               >
                 <Check size={20} strokeWidth={2.5} />

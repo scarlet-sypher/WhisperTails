@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { Loader2, Eye, Check } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -23,9 +23,8 @@ const PetSelector = ({
 
   const fetchPets = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/owner/adoption/pets`, {
+      const res = await axiosInstance.get("/api/owner/adoption/pets", {
         params: { species, breed },
-        withCredentials: true,
       });
       if (res.data.success) {
         setPets(res.data.data);
@@ -183,14 +182,14 @@ const PetSelector = ({
       pet.applicationStatus?.reason === "own_submitted"
         ? "bg-linear-to-r from-yellow-500 to-yellow-600 text-white hover:shadow-lg active:scale-95"
         : pet.applicationStatus?.disabled
-        ? pet.applicationStatus.reason === "active_by_other"
-          ? "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
-          : pet.applicationStatus.reason === "own_approved"
-          ? "bg-blue-600 text-white cursor-not-allowed"
-          : "bg-gray-600 text-gray-300 cursor-not-allowed"
-        : isSelected
-        ? "bg-linear-to-r from-green-500 to-green-600 text-white active:scale-95"
-        : "bg-linear-to-r from-[#60519b] to-[#7d6ab8] text-white hover:shadow-lg hover:shadow-[#60519b]/30 active:scale-95"
+          ? pet.applicationStatus.reason === "active_by_other"
+            ? "bg-gray-600 text-gray-300 cursor-not-allowed opacity-60"
+            : pet.applicationStatus.reason === "own_approved"
+              ? "bg-blue-600 text-white cursor-not-allowed"
+              : "bg-gray-600 text-gray-300 cursor-not-allowed"
+          : isSelected
+            ? "bg-linear-to-r from-green-500 to-green-600 text-white active:scale-95"
+            : "bg-linear-to-r from-[#60519b] to-[#7d6ab8] text-white hover:shadow-lg hover:shadow-[#60519b]/30 active:scale-95"
     }
   `}
                     >

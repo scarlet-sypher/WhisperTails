@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { Loader2, Search } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -17,9 +17,8 @@ const BreedStep = ({ species, onSelect, selectedBreed }) => {
 
   const fetchBreeds = async () => {
     try {
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/breeds/${species}`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        `/api/owner/adoption/breeds/${species}`,
       );
       if (res.data.success) {
         setBreeds(["all", ...res.data.data]);
@@ -32,7 +31,7 @@ const BreedStep = ({ species, onSelect, selectedBreed }) => {
   };
 
   const filteredBreeds = breeds.filter((b) =>
-    b.toLowerCase().includes(searchTerm.toLowerCase())
+    b.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   if (loading) {

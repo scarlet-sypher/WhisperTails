@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { Upload, Loader, X } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -91,17 +91,15 @@ const FosterPetForm = ({
     try {
       let res;
       if (editMode && petData) {
-        res = await axios.put(
-          `${API_URL}/api/owner/pets/${petData._id}`,
+        res = await axiosInstance.put(
+          `/api/owner/pets/${petData._id}`,
           formPayload,
           {
-            withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" },
-          }
+          },
         );
       } else {
-        res = await axios.post(`${API_URL}/api/owner/pets`, formPayload, {
-          withCredentials: true,
+        res = await axiosInstance.post("/api/owner/pets", formPayload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -127,7 +125,7 @@ const FosterPetForm = ({
       console.error("Submit error:", err);
       alert(
         err.response?.data?.message ||
-          `Failed to ${editMode ? "update" : "add"} foster pet`
+          `Failed to ${editMode ? "update" : "add"} foster pet`,
       );
     } finally {
       setSubmitting(false);

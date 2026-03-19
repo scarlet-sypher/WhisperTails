@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { MapPin, Upload, Loader, X } from "lucide-react";
-
+import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const LostFoundPetForm = ({
@@ -76,7 +76,7 @@ const LostFoundPetForm = ({
 
         try {
           const res = await axios.get(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
           );
           const address = res.data.display_name || "Unknown location";
           setFormData((prev) => ({ ...prev, locationAddress: address }));
@@ -94,7 +94,7 @@ const LostFoundPetForm = ({
         console.error("Geolocation error:", error);
         alert("Unable to retrieve your location");
         setLoadingLocation(false);
-      }
+      },
     );
   };
 
@@ -130,17 +130,15 @@ const LostFoundPetForm = ({
     try {
       let res;
       if (editMode && petData) {
-        res = await axios.put(
-          `${API_URL}/api/owner/pets/${petData._id}`,
+        res = await axiosInstance.put(
+          `/api/owner/pets/${petData._id}`,
           formPayload,
           {
-            withCredentials: true,
             headers: { "Content-Type": "multipart/form-data" },
-          }
+          },
         );
       } else {
-        res = await axios.post(`${API_URL}/api/owner/pets`, formPayload, {
-          withCredentials: true,
+        res = await axiosInstance.post("/api/owner/pets", formPayload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -165,7 +163,7 @@ const LostFoundPetForm = ({
       console.error("Submit error:", err);
       alert(
         err.response?.data?.message ||
-          `Failed to ${editMode ? "update" : "report"} pet`
+          `Failed to ${editMode ? "update" : "report"} pet`,
       );
     } finally {
       setSubmitting(false);

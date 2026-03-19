@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search, User, Circle, Menu, X, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import axiosInstance from "../../../utils/axiosInstance";
 
 const ShelterChatSidebar = ({ onSelectRoom, selectedRoomId, userRole }) => {
   const [rooms, setRooms] = useState([]);
@@ -19,9 +18,7 @@ const ShelterChatSidebar = ({ onSelectRoom, selectedRoomId, userRole }) => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/chat/rooms`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/chat/rooms");
 
       if (response.data.success) {
         setRooms(response.data.data);

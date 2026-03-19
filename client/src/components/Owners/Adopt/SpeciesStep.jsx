@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import {
   Loader2,
   PawPrint,
@@ -34,9 +34,7 @@ const SpeciesStep = ({ onSelect, selectedSpecies }) => {
 
   const fetchSpecies = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/owner/adoption/species`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/owner/adoption/species");
       if (res.data.success) {
         setSpecies(res.data.data);
       }
