@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   User,
   Mail,
@@ -83,9 +83,7 @@ const OwnerUpdateProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/owner/profile`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/owner/profile");
 
       if (response.data.success) {
         const profileData = {
@@ -166,15 +164,14 @@ const OwnerUpdateProfile = () => {
       const formData = new FormData();
       formData.append("avatar", avatarFile);
 
-      const response = await axios.put(
-        `${API_URL}/api/owner/profile/avatar`,
+      const response = await axiosInstance.put(
+        "/api/owner/profile/avatar",
         formData,
         {
-          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -219,10 +216,9 @@ const OwnerUpdateProfile = () => {
         bio: profile.bio,
       };
 
-      const response = await axios.put(
-        `${API_URL}/api/owner/profile`,
+      const response = await axiosInstance.put(
+        "/api/owner/profile",
         updateData,
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -248,10 +244,9 @@ const OwnerUpdateProfile = () => {
   const handleRequestOTP = async () => {
     try {
       setSendingOtp(true);
-      const response = await axios.post(
-        `${API_URL}/api/owner/security/request-otp`,
+      const response = await axiosInstance.post(
+        "/api/owner/security/request-otp",
         {},
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -286,10 +281,9 @@ const OwnerUpdateProfile = () => {
 
     try {
       setVerifyingOtp(true);
-      const response = await axios.post(
-        `${API_URL}/api/owner/security/verify-otp`,
+      const response = await axiosInstance.post(
+        "/api/owner/security/verify-otp",
         { otp: securityForm.otp },
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -342,14 +336,13 @@ const OwnerUpdateProfile = () => {
 
     try {
       setSaving(true);
-      const response = await axios.post(
-        `${API_URL}/api/owner/security/change-password`,
+      const response = await axiosInstance.post(
+        "/api/owner/security/change-password",
         {
           otp: securityForm.otp,
           newPassword: securityForm.newPassword,
           confirmPassword: securityForm.confirmPassword,
         },
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -381,11 +374,7 @@ const OwnerUpdateProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

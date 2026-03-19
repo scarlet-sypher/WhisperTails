@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   ArrowLeft,
   AlertCircle,
@@ -36,9 +36,8 @@ const RejectedApplicationDetail = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/archived/${applicationId}`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        `/api/owner/adoption/archived/${applicationId}`,
       );
 
       if (!res.data?.success || !res.data?.data?.application) {
@@ -68,11 +67,7 @@ const RejectedApplicationDetail = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

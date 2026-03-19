@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import { useNotificationSocket } from "../../../hooks/useSocket";
 import Navbar from "../../components/Owners/NavbarOwner";
 import NotificationBell from "../../Common/NotificationBell";
@@ -12,8 +12,6 @@ import PetSelector from "../../components/Owners/Adopt/PetSelector";
 import PetDetailDrawer from "../../components/Owners/Adopt/PetDetailDrawer";
 import ApplicationForm from "../../components/Owners/Adopt/ApplicationForm";
 import ReviewSubmit from "../../components/Owners/Adopt/ReviewSubmit";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const STEPS = [
   { id: "species", label: "Species" },
@@ -28,26 +26,22 @@ const OwnerAdoptPet = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [toast, setToast] = useState(null);
 
-  // Socket hook for notifications
   const { onNewNotification } = useNotificationSocket();
 
-  // Form state
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedBreed, setSelectedBreed] = useState("");
   const [selectedPetId, setSelectedPetId] = useState("");
   const [selectedPet, setSelectedPet] = useState(null);
   const [applicationData, setApplicationData] = useState(null);
 
-  // UI state
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerPetId, setDrawerPetId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Listen for real-time notifications
   useEffect(() => {
     const unsubscribe = onNewNotification((notification) => {
       console.log("Received notification:", notification);
-      // You can show a toast for important notifications
+
       if (
         notification.type === "general" &&
         notification.title.includes("Application")
@@ -63,11 +57,7 @@ const OwnerAdoptPet = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -96,17 +86,14 @@ const OwnerAdoptPet = () => {
     showToast(
       "success",
       "Breed Selected",
-      breed === "all" ? "Showing all breeds" : `You selected ${breed}`
+      breed === "all" ? "Showing all breeds" : `You selected ${breed}`,
     );
   };
 
   // Step 3: Pet Selection
   const handlePetSelect = async (petId) => {
     try {
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/pets/${petId}`,
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.get(`/api/owner/adoption/pets/${petId}`);
 
       if (res.data.success) {
         const petData = res.data.data;
@@ -115,7 +102,7 @@ const OwnerAdoptPet = () => {
           showToast(
             "error",
             "Cannot Select Pet",
-            petData.applicationStatus.text
+            petData.applicationStatus.text,
           );
           return;
         }
@@ -156,17 +143,16 @@ const OwnerAdoptPet = () => {
         agreedToTerms,
       };
 
-      const res = await axios.post(
-        `${API_URL}/api/owner/adoption/apply`,
+      const res = await axiosInstance.post(
+        "/api/owner/adoption/apply",
         payload,
-        { withCredentials: true }
       );
 
       if (res.data.success) {
         showToast(
           "success",
           "Application Submitted!",
-          "The shelter will review your application. You'll receive notifications about updates."
+          "The shelter will review your application. You'll receive notifications about updates.",
         );
 
         setTimeout(() => {
@@ -184,15 +170,14 @@ const OwnerAdoptPet = () => {
 
   const handleWithdraw = async (petId) => {
     try {
-      const applicationsRes = await axios.get(
-        `${API_URL}/api/owner/adoption/my-applications`,
-        { withCredentials: true }
+      const applicationsRes = await axiosInstance.get(
+        "/api/owner/adoption/my-applications",
       );
 
       const application = applicationsRes.data.data.find(
         (app) =>
           app.petId._id === petId &&
-          (app.status === "submitted" || app.status === "review")
+          (app.status === "submitted" || app.status === "review"),
       );
 
       if (!application) {
@@ -200,17 +185,16 @@ const OwnerAdoptPet = () => {
         return;
       }
 
-      const res = await axios.post(
-        `${API_URL}/api/owner/adoption/withdraw/${application._id}`,
+      const res = await axiosInstance.post(
+        `/api/owner/adoption/withdraw/${application._id}`,
         {},
-        { withCredentials: true }
       );
 
       if (res.data.success) {
         showToast(
           "success",
           "Application Withdrawn",
-          "Your application has been withdrawn successfully"
+          "Your application has been withdrawn successfully",
         );
 
         setSelectedPetId("");

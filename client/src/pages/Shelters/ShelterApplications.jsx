@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   FileText,
   Clock,
@@ -33,9 +33,7 @@ const ShelterApplications = () => {
   const fetchApplications = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/api/shelter/applications`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/shelter/applications");
 
       if (res.data.success) {
         setApplicationsData(res.data.data);
@@ -50,11 +48,7 @@ const ShelterApplications = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -108,7 +102,7 @@ const ShelterApplications = () => {
   const filteredData = applicationsData
     .map((group) => {
       const nonRejectedApps = group.applications.filter(
-        (app) => app.status !== "rejected"
+        (app) => app.status !== "rejected",
       );
 
       return {
@@ -209,7 +203,7 @@ const ShelterApplications = () => {
                   filterStatus === "all"
                     ? group.applications
                     : group.applications.filter(
-                        (app) => app.status === filterStatus
+                        (app) => app.status === filterStatus,
                       );
 
                 if (displayApplications.length === 0) return null;
@@ -306,7 +300,7 @@ const ShelterApplications = () => {
                               <button
                                 onClick={() =>
                                   navigate(
-                                    `/shelter/applications-shelter/${app._id}`
+                                    `/shelter/applications-shelter/${app._id}`,
                                   )
                                 }
                                 className="flex items-center gap-2 rounded-lg bg-[#4a5568]/20 px-4 py-2 text-sm font-semibold text-[#4a5568] transition-all hover:bg-[#4a5568]/30 hover:scale-105 active:scale-95"

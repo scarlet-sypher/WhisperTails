@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSocket } from "../../../hooks/useSocket";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Heart,
   FileText,
@@ -42,15 +42,6 @@ const ShelterDashboard = () => {
   const { on } = useSocket();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    if (token) {
-      localStorage.setItem("token", token);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
-
-  useEffect(() => {
     fetchAllData();
   }, []);
   useEffect(() => {
@@ -74,11 +65,7 @@ const ShelterDashboard = () => {
     setLoading(true);
     setError("");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(`${API_URL}/api/shelter/dashboard`, {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosInstance.get("/api/shelter/dashboard");
 
       if (response.data.success) {
         const {
@@ -107,11 +94,7 @@ const ShelterDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

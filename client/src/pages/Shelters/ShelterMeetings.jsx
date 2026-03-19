@@ -10,7 +10,7 @@ import {
   CheckCircle2,
   AlertTriangle,
 } from "lucide-react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import NavbarShelter from "../../components/Shelters/NavbarShelter";
 import FullPageLoader from "../../Common/FullPageLoader";
 import FullPageError from "../../Common/FullPageError";
@@ -74,13 +74,9 @@ const ShelterMeetings = () => {
     try {
       setLoading(true);
       const [meetingsRes, ownersRes, applicationsRes] = await Promise.all([
-        axios.get(`${API_URL}/api/shelter/meetings`, { withCredentials: true }),
-        axios.get(`${API_URL}/api/shelter/meetings/eligible-owners`, {
-          withCredentials: true,
-        }),
-        axios.get(`${API_URL}/api/shelter/applications`, {
-          withCredentials: true,
-        }),
+        axiosInstance.get("/api/shelter/meetings"),
+        axiosInstance.get("/api/shelter/meetings/eligible-owners"),
+        axiosInstance.get("/api/shelter/applications"),
       ]);
 
       if (meetingsRes.data.success) setMeetings(meetingsRes.data.meetings);
@@ -92,7 +88,7 @@ const ShelterMeetings = () => {
             petName: group.pet.name,
             ownerName:
               app.applicationData?.fullName || app.ownerId?.email || "Unknown",
-          }))
+          })),
         );
         setApplications(flatApplications);
       }
@@ -106,11 +102,7 @@ const ShelterMeetings = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout");
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -127,22 +119,18 @@ const ShelterMeetings = () => {
     e.preventDefault();
     try {
       const scheduledAt = new Date(
-        `${formData.scheduledDate}T${formData.scheduledTime}`
+        `${formData.scheduledDate}T${formData.scheduledTime}`,
       );
 
-      const res = await axios.post(
-        `${API_URL}/api/shelter/meetings`,
-        {
-          ownerId: formData.ownerId,
-          applicationId: selectedApplicationId,
-          scheduledAt,
-          durationMinutes: formData.durationMinutes,
-          meetingLink: formData.meetingLink,
-          meetingPlatform: formData.meetingPlatform,
-          notes: formData.notes,
-        },
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.post("/api/shelter/meetings", {
+        ownerId: formData.ownerId,
+        applicationId: selectedApplicationId,
+        scheduledAt,
+        durationMinutes: formData.durationMinutes,
+        meetingLink: formData.meetingLink,
+        meetingPlatform: formData.meetingPlatform,
+        notes: formData.notes,
+      });
 
       if (res.data.success) {
         setToast({
@@ -176,11 +164,11 @@ const ShelterMeetings = () => {
     e.preventDefault();
     try {
       const scheduledAt = new Date(
-        `${formData.scheduledDate}T${formData.scheduledTime}`
+        `${formData.scheduledDate}T${formData.scheduledTime}`,
       );
 
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/meetings/${selectedMeeting._id}`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/meetings/${selectedMeeting._id}`,
         {
           scheduledAt,
           durationMinutes: formData.durationMinutes,
@@ -188,14 +176,13 @@ const ShelterMeetings = () => {
           meetingPlatform: formData.meetingPlatform,
           notes: formData.notes,
         },
-        { withCredentials: true }
       );
 
       if (res.data.success) {
         setMeetings(
           meetings.map((m) =>
-            m._id === selectedMeeting._id ? res.data.meeting : m
-          )
+            m._id === selectedMeeting._id ? res.data.meeting : m,
+          ),
         );
         setToast({
           type: "success",
@@ -219,7 +206,7 @@ const ShelterMeetings = () => {
     e.preventDefault();
 
     const owner = eligibleOwners.find(
-      (o) => o.ownerId === selectedMeeting.ownerId._id
+      (o) => o.ownerId === selectedMeeting.ownerId._id,
     );
     if (
       cancelData.confirmName.trim().toLowerCase() !== owner?.name.toLowerCase()
@@ -233,10 +220,9 @@ const ShelterMeetings = () => {
     }
 
     try {
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/meetings/${selectedMeeting._id}/cancel`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/meetings/${selectedMeeting._id}/cancel`,
         { cancellationReason: cancelData.reason },
-        { withCredentials: true }
       );
 
       if (res.data.success) {
@@ -249,8 +235,8 @@ const ShelterMeetings = () => {
                   cancellationReason: cancelData.reason,
                   cancelledBy: "shelter",
                 }
-              : m
-          )
+              : m,
+          ),
         );
         setShowCancelModal(false);
         setSelectedMeeting(null);
@@ -267,17 +253,15 @@ const ShelterMeetings = () => {
 
   const handleMarkComplete = async (meetingId) => {
     try {
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/meetings/${meetingId}/complete`,
-        {},
-        { withCredentials: true }
+      const res = await axiosInstance.patch(
+        `/api/shelter/meetings/${meetingId}/complete`,
       );
 
       if (res.data.success) {
         setMeetings(
           meetings.map((m) =>
-            m._id === meetingId ? { ...m, status: "completed" } : m
-          )
+            m._id === meetingId ? { ...m, status: "completed" } : m,
+          ),
         );
       }
     } catch (err) {
@@ -291,9 +275,8 @@ const ShelterMeetings = () => {
 
   const handleDeleteMeeting = async () => {
     try {
-      const res = await axios.delete(
-        `${API_URL}/api/shelter/meetings/${meetingToDelete._id}`,
-        { withCredentials: true }
+      const res = await axiosInstance.delete(
+        `/api/shelter/meetings/${meetingToDelete._id}`,
       );
 
       if (res.data.success) {
@@ -406,8 +389,8 @@ const ShelterMeetings = () => {
                         meeting.status === "scheduled"
                           ? "border-emerald-500/30"
                           : meeting.status === "cancelled"
-                          ? "border-red-500/30"
-                          : "border-[#4a5568]/30"
+                            ? "border-red-500/30"
+                            : "border-[#4a5568]/30"
                       }`}
                     >
                       <div
@@ -415,8 +398,8 @@ const ShelterMeetings = () => {
                           meeting.status === "scheduled"
                             ? "bg-emerald-400"
                             : meeting.status === "cancelled"
-                            ? "bg-red-400"
-                            : "bg-gray-400"
+                              ? "bg-red-400"
+                              : "bg-gray-400"
                         }`}
                       />
 
@@ -429,7 +412,7 @@ const ShelterMeetings = () => {
 
                             <span
                               className={`rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-wide ${getStatusBadge(
-                                meeting.status
+                                meeting.status,
                               )}`}
                             >
                               {meeting.status}
@@ -440,14 +423,14 @@ const ShelterMeetings = () => {
                             <div className="flex items-center gap-2">
                               <Calendar size={16} className="text-[#4a5568]" />
                               {new Date(
-                                meeting.scheduledAt
+                                meeting.scheduledAt,
                               ).toLocaleDateString()}
                             </div>
 
                             <div className="flex items-center gap-2">
                               <Clock size={16} className="text-[#4a5568]" />
                               {new Date(
-                                meeting.scheduledAt
+                                meeting.scheduledAt,
                               ).toLocaleTimeString()}{" "}
                               · {meeting.durationMinutes} min
                             </div>
@@ -585,7 +568,7 @@ const ShelterMeetings = () => {
                       setSelectedApplicationId(appId);
 
                       const selectedApp = applications.find(
-                        (app) => app._id === appId
+                        (app) => app._id === appId,
                       );
 
                       if (selectedApp) {
@@ -607,7 +590,7 @@ const ShelterMeetings = () => {
                           "withdrawn",
                           "review",
                           "video-verification-scheduled",
-                        ].includes(app.status)
+                        ].includes(app.status),
                       )
                       .map((app) => (
                         <option key={app._id} value={app._id}>

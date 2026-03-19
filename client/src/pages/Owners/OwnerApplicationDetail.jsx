@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   ArrowLeft,
   AlertCircle,
@@ -44,9 +44,8 @@ const OwnerApplicationDetail = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/application/${applicationId}`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        `/api/owner/adoption/application/${applicationId}`,
       );
 
       if (!res.data?.success || !res.data?.data?.application) {
@@ -74,16 +73,15 @@ const OwnerApplicationDetail = () => {
 
     try {
       setDeleting(true);
-      const res = await axios.delete(
-        `${API_URL}/api/owner/adoption/application/${applicationId}/delete`,
-        { withCredentials: true }
+      const res = await axiosInstance.delete(
+        `/api/owner/adoption/application/${applicationId}/delete`,
       );
 
       if (res.data.success) {
         showToast(
           "success",
           "Application Archived",
-          "The application has been moved to archived applications"
+          "The application has been moved to archived applications",
         );
 
         setTimeout(() => {
@@ -95,7 +93,7 @@ const OwnerApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to archive application"
+        err.response?.data?.message || "Failed to archive application",
       );
       setDeleting(false);
     }
@@ -103,11 +101,7 @@ const OwnerApplicationDetail = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -346,7 +340,7 @@ const OwnerApplicationDetail = () => {
                 onClick={() => {
                   if (
                     confirm(
-                      "Are you sure you want to archive this application? It will be moved to archived applications."
+                      "Are you sure you want to archive this application? It will be moved to archived applications.",
                     )
                   ) {
                     handleDeleteConfirm();

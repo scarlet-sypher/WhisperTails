@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   ArrowLeft,
   AlertCircle,
@@ -34,9 +34,7 @@ const OwnerArchivedApplicationDetail = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(`${API_URL}/api/owner/adoption/archived`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/owner/adoption/archived");
 
       if (!res.data?.success) {
         setError("Failed to load archived application");
@@ -61,11 +59,7 @@ const OwnerArchivedApplicationDetail = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

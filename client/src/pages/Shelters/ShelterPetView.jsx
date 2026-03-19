@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Heart, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import NavbarShelter from "../../components/Shelters/NavbarShelter";
 import FullPageLoader from "../../Common/FullPageLoader";
 import FullPageError from "../../Common/FullPageError";
@@ -32,9 +32,8 @@ const ShelterPetView = () => {
     setErrorMessage("");
 
     try {
-      const response = await axios.get(`${API_URL}/api/shelter/pets`, {
+      const response = await axiosInstance.get("/api/shelter/pets", {
         params: { page, limit: pageInfo.limit },
-        withCredentials: true,
       });
 
       if (response.data.success) {
@@ -51,11 +50,7 @@ const ShelterPetView = () => {
 
   const logoutUser = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -177,7 +172,7 @@ const ShelterPetView = () => {
                   <div className="flex items-center gap-2">
                     {Array.from(
                       { length: pageInfo.totalPages },
-                      (_, index) => index + 1
+                      (_, index) => index + 1,
                     ).map((page) => (
                       <button
                         key={page}

@@ -13,7 +13,8 @@ export const SocketProvider = ({ children }) => {
   const [connectionError, setConnectionError] = useState(null);
   useEffect(() => {
     try {
-      socketService.connect();
+      const token = localStorage.getItem("token");
+      socketService.connect(token);
 
       socketService.on("connect", () => {
         setIsConnected(true);

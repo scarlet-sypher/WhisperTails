@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   ArrowLeft,
   User,
@@ -67,9 +67,8 @@ const ShelterApplicationDetail = () => {
   const fetchApplicationDetails = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API_URL}/api/shelter/applications/${applicationId}`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        `/api/shelter/applications/${applicationId}`,
       );
 
       if (res.data.success) {
@@ -89,21 +88,16 @@ const ShelterApplicationDetail = () => {
 
   const fetchRoomStatuses = async (appData) => {
     try {
-      const chatRes = await axios
-        .get(`${API_URL}/api/shelter/applications/${appData._id}/chat/status`, {
-          withCredentials: true,
-        })
+      const chatRes = await axiosInstance
+        .get(`/api/shelter/applications/${appData._id}/chat/status`)
         .catch(() => ({ data: { success: false } }));
 
       if (chatRes.data.success && chatRes.data.data) {
         setChatRoomStatus(chatRes.data.data.status);
       }
 
-      const meetingRes = await axios
-        .get(
-          `${API_URL}/api/shelter/applications/${appData._id}/meeting/status`,
-          { withCredentials: true }
-        )
+      const meetingRes = await axiosInstance
+        .get(`/api/shelter/applications/${appData._id}/meeting/status`)
         .catch(() => ({ data: { success: false } }));
 
       if (meetingRes.data.success && meetingRes.data.data) {
@@ -116,11 +110,7 @@ const ShelterApplicationDetail = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -137,17 +127,16 @@ const ShelterApplicationDetail = () => {
 
     try {
       setProcessing(true);
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/applications/${applicationId}/review`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/applications/${applicationId}/review`,
         {},
-        { withCredentials: true }
       );
 
       if (res.data.success) {
         showToast(
           "success",
           "Application Under Review",
-          "Application has been moved to review status"
+          "Application has been moved to review status",
         );
         setApplication((prev) => ({ ...prev, status: "review" }));
       }
@@ -156,7 +145,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to update application"
+        err.response?.data?.message || "Failed to update application",
       );
     } finally {
       setProcessing(false);
@@ -177,24 +166,23 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Validation Error",
-        "Please select or enter a rejection reason"
+        "Please select or enter a rejection reason",
       );
       return;
     }
 
     try {
       setProcessing(true);
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/applications/${applicationId}/reject-status`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/applications/${applicationId}/reject-status`,
         { rejectionReason: finalReason },
-        { withCredentials: true }
       );
 
       if (res.data.success) {
         showToast(
           "success",
           "Application Rejected",
-          "The applicant has been notified"
+          "The applicant has been notified",
         );
 
         setTimeout(() => {
@@ -206,7 +194,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to reject application"
+        err.response?.data?.message || "Failed to reject application",
       );
       setProcessing(false);
     }
@@ -217,10 +205,9 @@ const ShelterApplicationDetail = () => {
 
     try {
       setCreatingChat(true);
-      const res = await axios.post(
-        `${API_URL}/api/shelter/applications/${applicationId}/chat`,
+      const res = await axiosInstance.post(
+        `/api/shelter/applications/${applicationId}/chat`,
         {},
-        { withCredentials: true }
       );
 
       if (res.data.success) {
@@ -235,8 +222,8 @@ const ShelterApplicationDetail = () => {
           action === "reopened"
             ? "The chat room has been reopened"
             : action === "already_exists"
-            ? "Chat connection already exists"
-            : "The applicant has been notified"
+              ? "Chat connection already exists"
+              : "The applicant has been notified",
         );
       }
     } catch (err) {
@@ -244,7 +231,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to create chat connection"
+        err.response?.data?.message || "Failed to create chat connection",
       );
     } finally {
       setCreatingChat(false);
@@ -256,10 +243,9 @@ const ShelterApplicationDetail = () => {
 
     try {
       setCreatingMeeting(true);
-      const res = await axios.post(
-        `${API_URL}/api/shelter/applications/${applicationId}/meeting`,
+      const res = await axiosInstance.post(
+        `/api/shelter/applications/${applicationId}/meeting`,
         {},
-        { withCredentials: true }
       );
       if (res.data.success) {
         const action = res.data.action;
@@ -273,8 +259,8 @@ const ShelterApplicationDetail = () => {
           action === "reopened"
             ? "The meeting room has been reopened"
             : action === "already_exists"
-            ? "Meeting connection already exists"
-            : "The applicant has been notified"
+              ? "Meeting connection already exists"
+              : "The applicant has been notified",
         );
       }
     } catch (err) {
@@ -282,7 +268,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to create meeting connection"
+        err.response?.data?.message || "Failed to create meeting connection",
       );
     } finally {
       setCreatingMeeting(false);
@@ -294,18 +280,16 @@ const ShelterApplicationDetail = () => {
 
     try {
       setClosingChat(true);
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/applications/${applicationId}/chat/close`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/applications/${applicationId}/chat/close`,
         {},
-        { withCredentials: true }
       );
-
       if (res.data.success) {
         setChatRoomStatus("closed");
         showToast(
           "success",
           "Chat Room Closed",
-          "The chat room has been closed"
+          "The chat room has been closed",
         );
       }
     } catch (err) {
@@ -313,7 +297,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to close chat room"
+        err.response?.data?.message || "Failed to close chat room",
       );
     } finally {
       setClosingChat(false);
@@ -325,10 +309,9 @@ const ShelterApplicationDetail = () => {
 
     try {
       setClosingMeeting(true);
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/applications/${applicationId}/meeting/close`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/applications/${applicationId}/meeting/close`,
         {},
-        { withCredentials: true }
       );
 
       if (res.data.success) {
@@ -336,7 +319,7 @@ const ShelterApplicationDetail = () => {
         showToast(
           "success",
           "Meeting Room Closed",
-          "The meeting room has been closed"
+          "The meeting room has been closed",
         );
       }
     } catch (err) {
@@ -344,7 +327,7 @@ const ShelterApplicationDetail = () => {
       showToast(
         "error",
         "Error",
-        err.response?.data?.message || "Failed to close meeting room"
+        err.response?.data?.message || "Failed to close meeting room",
       );
     } finally {
       setClosingMeeting(false);
@@ -699,10 +682,10 @@ const ShelterApplicationDetail = () => {
                         application.status === "submitted"
                           ? "text-blue-400"
                           : application.status === "review"
-                          ? "text-yellow-400"
-                          : application.status === "approved"
-                          ? "text-green-400"
-                          : "text-red-400"
+                            ? "text-yellow-400"
+                            : application.status === "approved"
+                              ? "text-green-400"
+                              : "text-red-400"
                       }`}
                     >
                       {application.status}
@@ -766,8 +749,8 @@ const ShelterApplicationDetail = () => {
                       {creatingChat
                         ? "Creating..."
                         : chatRoomStatus === "closed"
-                        ? "Reopen Chat Room"
-                        : "Create Chat Connection"}
+                          ? "Reopen Chat Room"
+                          : "Create Chat Connection"}
                     </button>
                   )}
 
@@ -793,8 +776,8 @@ const ShelterApplicationDetail = () => {
                       {creatingMeeting
                         ? "Creating..."
                         : meetingRoomStatus === "closed"
-                        ? "Reopen Meeting Room"
-                        : "Create Meeting Connection"}
+                          ? "Reopen Meeting Room"
+                          : "Create Meeting Connection"}
                     </button>
                   )}
 

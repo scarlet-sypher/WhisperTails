@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   FileText,
   Eye,
@@ -30,9 +30,7 @@ const OwnerArchivedApplications = () => {
   const fetchArchivedApplications = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/api/owner/adoption/archived`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/owner/adoption/archived");
 
       if (res.data.success) {
         setApplications(res.data.data);
@@ -47,11 +45,7 @@ const OwnerArchivedApplications = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

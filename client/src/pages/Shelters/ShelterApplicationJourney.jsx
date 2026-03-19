@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Search,
   CheckCircle,
@@ -44,9 +44,7 @@ const ShelterApplicationJourney = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/journey/submitted`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/journey/submitted");
 
       if (response.data.success) {
         setApplications(response.data.data);
@@ -63,10 +61,7 @@ const ShelterApplicationJourney = () => {
 
   const fetchJourneyDetails = async (applicationId) => {
     try {
-      const response = await axios.get(
-        `${API_URL}/api/journey/${applicationId}`,
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.get(`/api/journey/${applicationId}`);
 
       if (response.data.success) {
         setJourneyData(response.data.data);
@@ -94,15 +89,11 @@ const ShelterApplicationJourney = () => {
           ? `/api/journey/${selectedApp._id}/video-verification`
           : `/api/journey/${selectedApp._id}/final-approval`;
 
-      const response = await axios.post(
-        `${API_URL}${endpoint}`,
-        {
-          status: action,
-          password,
-          rejectionReason: action === "reject" ? rejectionReason : undefined,
-        },
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.post(endpoint, {
+        status: action,
+        password,
+        rejectionReason: action === "reject" ? rejectionReason : undefined,
+      });
 
       if (response.data.success) {
         setShowDialog(false);
@@ -143,13 +134,12 @@ const ShelterApplicationJourney = () => {
       });
       formData.append("geoLocations", JSON.stringify(geoLocations));
 
-      const response = await axios.post(
-        `${API_URL}/api/journey/${selectedApp._id}/upload-site-photos`,
+      const response = await axiosInstance.post(
+        `/api/journey/${selectedApp._id}/upload-site-photos`,
         formData,
         {
-          withCredentials: true,
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -187,7 +177,7 @@ const ShelterApplicationJourney = () => {
         },
         (error) => {
           alert("Please enable location access to upload photos");
-        }
+        },
       );
     } else {
       alert("Geolocation is not supported by this browser");
@@ -201,9 +191,8 @@ const ShelterApplicationJourney = () => {
     }
 
     try {
-      const response = await axios.delete(
-        `${API_URL}/api/shelter/applications/${selectedApp._id}/delete`,
-        { withCredentials: true }
+      const response = await axiosInstance.delete(
+        `/api/shelter/applications/${selectedApp._id}/delete`,
       );
 
       if (response.data.success) {
@@ -455,7 +444,7 @@ const ShelterApplicationJourney = () => {
                     <div key={item.color} className="flex items-center gap-2">
                       <div
                         className={`w-8 h-8 rounded-full ${getStepColor(
-                          item.color
+                          item.color,
                         )} flex items-center justify-center`}
                       >
                         <item.icon size={16} className="text-white" />
@@ -478,7 +467,7 @@ const ShelterApplicationJourney = () => {
                         <div className="flex flex-col items-center">
                           <div
                             className={`w-12 h-12 rounded-full ${getStepColor(
-                              step.status
+                              step.status,
                             )} flex items-center justify-center shadow-lg ${
                               isStepRejected ? "ring-2 ring-red-500/50" : ""
                             }`}
@@ -586,11 +575,11 @@ const ShelterApplicationJourney = () => {
                                           />
                                           <p className="text-xs text-[#bfc0d1] mt-1">
                                             {journeyData.application.siteVisitPhotos.photo1.geoLocation.latitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                             ,{" "}
                                             {journeyData.application.siteVisitPhotos.photo1.geoLocation.longitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                           </p>
                                         </div>
@@ -606,11 +595,11 @@ const ShelterApplicationJourney = () => {
                                           />
                                           <p className="text-xs text-[#bfc0d1] mt-1">
                                             {journeyData.application.siteVisitPhotos.photo2.geoLocation.latitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                             ,{" "}
                                             {journeyData.application.siteVisitPhotos.photo2.geoLocation.longitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                           </p>
                                         </div>

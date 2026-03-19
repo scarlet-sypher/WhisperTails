@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Activity,
   AlertCircle,
@@ -59,12 +59,7 @@ const OwnerDashboard = () => {
 
   const fetchProfile = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(`${API_URL}/api/auth/owner/profile`, {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const response = await axiosInstance.get("/api/auth/owner/profile");
       if (response.data.success) {
         setProfile(response.data.profile);
       }
@@ -79,12 +74,10 @@ const OwnerDashboard = () => {
   const fetchAdoptedPets = async () => {
     setPetsLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/api/owner/adopted-pets`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/owner/adopted-pets");
 
       if (response.data.success) {
-        setAdoptedPets(response.data.pets);
+        setAdoptedPets(response.data.pets || []);
 
         if (response.data.pets.length === 0) {
           setToast({
@@ -109,12 +102,7 @@ const OwnerDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
-
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

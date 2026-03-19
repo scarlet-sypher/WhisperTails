@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Heart,
   Upload,
@@ -93,9 +93,8 @@ const ShelterPetAdd = () => {
   const fetchPetForEdit = async () => {
     setFetchingPet(true);
     try {
-      const response = await axios.get(
-        `${API_URL}/api/shelter/pets/${editPetId}`,
-        { withCredentials: true }
+      const response = await axiosInstance.get(
+        `/api/shelter/pets/${editPetId}`,
       );
 
       if (response.data.success) {
@@ -123,7 +122,7 @@ const ShelterPetAdd = () => {
         });
 
         setMaintenanceCost(
-          pet.maintenanceCost || calculateMaintenanceCost(pet)
+          pet.maintenanceCost || calculateMaintenanceCost(pet),
         );
         setExistingImages(pet.images || []);
 
@@ -282,14 +281,13 @@ const ShelterPetAdd = () => {
       }
 
       const url = isEditMode
-        ? `${API_URL}/api/shelter/pets/${editPetId}`
-        : `${API_URL}/api/shelter/pets`;
+        ? `/api/shelter/pets/${editPetId}`
+        : `/api/shelter/pets`;
 
       const method = isEditMode ? "put" : "post";
 
-      const response = await axios[method](url, submitData, {
+      const response = await axiosInstance[method](url, submitData, {
         headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
       });
 
       if (response.data.success) {

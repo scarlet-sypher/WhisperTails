@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Bell, Check, CheckCheck, X, Inbox } from "lucide-react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useSocket } from "../../hooks/useSocket";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -46,9 +46,7 @@ const NotificationBell = () => {
   /* ================================= API =================================== */
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/notifications`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/notifications");
       if (res.data.success) {
         const sorted = sortNotifications(res.data.notifications);
         setNotifications(sorted);
@@ -61,14 +59,10 @@ const NotificationBell = () => {
 
   const markAsRead = async (id) => {
     try {
-      await axios.patch(
-        `${API_URL}/api/notifications/${id}/read`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.patch(`/api/notifications/${id}/read`, {});
 
       setNotifications((prev) =>
-        prev.map((n) => (n._id === id ? { ...n, read: true } : n))
+        prev.map((n) => (n._id === id ? { ...n, read: true } : n)),
       );
       setUnreadCount((c) => Math.max(0, c - 1));
     } catch (err) {
@@ -78,11 +72,7 @@ const NotificationBell = () => {
 
   const markAllAsRead = async () => {
     try {
-      await axios.patch(
-        `${API_URL}/api/notifications/mark-all-read`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.patch("/api/notifications/mark-all-read", {});
 
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
       setUnreadCount(0);
@@ -210,7 +200,7 @@ const NotificationBell = () => {
                           {/* Type Indicator */}
                           <div
                             className={`mt-0.5 rounded-lg p-2 ${getTypeColor(
-                              n.type
+                              n.type,
                             )}`}
                           >
                             <Bell size={14} strokeWidth={2.5} />

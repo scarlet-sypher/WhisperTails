@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Search,
   CheckCircle,
@@ -36,9 +36,8 @@ const OwnerApplicationJourney = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get(
-        `${API_URL}/api/journey/owner-applications`,
-        { withCredentials: true }
+      const response = await axiosInstance.get(
+        "/api/journey/owner-applications",
       );
 
       if (response?.data?.success) {
@@ -53,7 +52,7 @@ const OwnerApplicationJourney = () => {
       }
       console.error(
         "Fetch applications error:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
     } finally {
       setLoading(false);
@@ -62,9 +61,8 @@ const OwnerApplicationJourney = () => {
 
   const fetchJourneyDetails = async (applicationId) => {
     try {
-      const response = await axios.get(
-        `${API_URL}/api/journey/owner/${applicationId}`,
-        { withCredentials: true }
+      const response = await axiosInstance.get(
+        `/api/journey/owner/${applicationId}`,
       );
 
       if (response.data.success) {
@@ -278,7 +276,7 @@ const OwnerApplicationJourney = () => {
                     <div className="flex items-center gap-3 mb-2">
                       {console.log(
                         "PET COVER IMAGE DEBUG →",
-                        app.petId?.coverImage
+                        app.petId?.coverImage,
                       )}
 
                       {app.petId?.coverImage && (
@@ -406,7 +404,7 @@ const OwnerApplicationJourney = () => {
                     <div key={item.color} className="flex items-center gap-2">
                       <div
                         className={`w-8 h-8 rounded-full ${getStepColor(
-                          item.color
+                          item.color,
                         )} flex items-center justify-center shadow-md`}
                       >
                         <item.icon size={16} className="text-white" />
@@ -431,7 +429,7 @@ const OwnerApplicationJourney = () => {
                         <div className="flex flex-col items-center">
                           <div
                             className={`w-12 h-12 rounded-full ${getStepColor(
-                              step.status
+                              step.status,
                             )} flex items-center justify-center shadow-lg transition-all ${
                               isStepActive
                                 ? "ring-4 ring-yellow-500/30 animate-pulse"
@@ -450,8 +448,8 @@ const OwnerApplicationJourney = () => {
                                 isStepRejected
                                   ? "bg-red-500/30"
                                   : isStepCompleted
-                                  ? "bg-green-500/30"
-                                  : "bg-[#4a5568]/30"
+                                    ? "bg-green-500/30"
+                                    : "bg-[#4a5568]/30"
                               }`}
                             />
                           )}
@@ -463,10 +461,10 @@ const OwnerApplicationJourney = () => {
                               isStepRejected
                                 ? "bg-red-500/5 border-red-500/30"
                                 : isStepActive
-                                ? "bg-yellow-500/5 border-yellow-500/30"
-                                : isStepCompleted
-                                ? "bg-green-500/5 border-green-500/30"
-                                : "bg-[#31323e] border-[#4a5568]/20"
+                                  ? "bg-yellow-500/5 border-yellow-500/30"
+                                  : isStepCompleted
+                                    ? "bg-green-500/5 border-green-500/30"
+                                    : "bg-[#31323e] border-[#4a5568]/20"
                             }`}
                           >
                             <div className="flex items-start justify-between mb-3">
@@ -479,7 +477,7 @@ const OwnerApplicationJourney = () => {
                               {getStepMessage(
                                 step,
                                 journeyData.application,
-                                journeyData.meetingDetails
+                                journeyData.meetingDetails,
                               )}
                             </p>
 
@@ -498,7 +496,8 @@ const OwnerApplicationJourney = () => {
                                       />
                                       <span>
                                         {new Date(
-                                          journeyData.meetingDetails.scheduledDate
+                                          journeyData.meetingDetails
+                                            .scheduledDate,
                                         ).toLocaleString("en-US", {
                                           dateStyle: "medium",
                                           timeStyle: "short",
@@ -550,11 +549,11 @@ const OwnerApplicationJourney = () => {
                                           <p className="text-xs text-[#bfc0d1]/70">
                                             📍{" "}
                                             {photo.geoLocation.latitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                             ,{" "}
                                             {photo.geoLocation.longitude.toFixed(
-                                              4
+                                              4,
                                             )}
                                           </p>
                                         )}
@@ -562,7 +561,7 @@ const OwnerApplicationJourney = () => {
                                           <p className="text-xs text-[#bfc0d1]/70">
                                             Uploaded:{" "}
                                             {new Date(
-                                              photo.uploadedAt
+                                              photo.uploadedAt,
                                             ).toLocaleDateString()}
                                           </p>
                                         )}
@@ -589,7 +588,7 @@ const OwnerApplicationJourney = () => {
                     <p className="text-white">
                       {new Date(
                         journeyData.application.submittedAt ||
-                          journeyData.application.createdAt
+                          journeyData.application.createdAt,
                       ).toLocaleDateString("en-US", {
                         dateStyle: "medium",
                       })}
@@ -600,13 +599,13 @@ const OwnerApplicationJourney = () => {
                     <span
                       className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${
                         getApplicationStatusBadge(
-                          journeyData.application.status
+                          journeyData.application.status,
                         ).color
                       }`}
                     >
                       {
                         getApplicationStatusBadge(
-                          journeyData.application.status
+                          journeyData.application.status,
                         ).label
                       }
                     </span>

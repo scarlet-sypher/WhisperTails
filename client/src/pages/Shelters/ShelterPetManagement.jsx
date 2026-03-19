@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import NavbarShelter from "../../components/Shelters/NavbarShelter";
 import FullPageLoader from "../../Common/FullPageLoader";
 import FullPageError from "../../Common/FullPageError";
@@ -39,9 +39,7 @@ const ShelterPetManagement = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/shelter/profile`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/shelter/profile");
       if (res.data.success) {
         setProfile(res.data.profile);
       }
@@ -56,9 +54,8 @@ const ShelterPetManagement = () => {
   const fetchPets = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API_URL}/api/shelter/owner-pets?category=${activeCategory}`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        `/api/shelter/owner-pets?category=${activeCategory}`,
       );
       if (res.data.success) {
         setPets(res.data.data);
@@ -73,12 +70,10 @@ const ShelterPetManagement = () => {
 
   const handleStatusUpdate = async (petId, newStatus) => {
     try {
-      const res = await axios.patch(
-        `${API_URL}/api/shelter/owner-pets/${petId}/status`,
+      const res = await axiosInstance.patch(
+        `/api/shelter/owner-pets/${petId}/status`,
         { status: newStatus },
-        { withCredentials: true }
       );
-
       if (res.data.success) {
         showToast("success", "Success", "Pet status updated successfully");
         setSelectedPet(null);
@@ -96,11 +91,7 @@ const ShelterPetManagement = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

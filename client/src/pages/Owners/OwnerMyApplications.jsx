@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   FileText,
   Clock,
@@ -41,8 +41,8 @@ const OwnerMyApplications = () => {
                 status: data.status,
                 rejectionReason: data.rejectionReason,
               }
-            : app
-        )
+            : app,
+        ),
       );
     });
 
@@ -56,9 +56,8 @@ const OwnerMyApplications = () => {
   const fetchApplications = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API_URL}/api/owner/adoption/my-applications`,
-        { withCredentials: true }
+      const res = await axiosInstance.get(
+        "/api/owner/adoption/my-applications",
       );
 
       if (res.data.success) {
@@ -74,11 +73,7 @@ const OwnerMyApplications = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

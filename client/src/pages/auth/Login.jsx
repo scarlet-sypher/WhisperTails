@@ -40,6 +40,10 @@ const Login = () => {
           text: "Login successful! Redirecting...",
         });
 
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+        }
+
         setTimeout(() => {
           if (response.data.user.role === "owner") {
             window.location.href = "/owner-dashboard";

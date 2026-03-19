@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
+import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import ShelterChatSidebar from "../../components/Shelters/Chat/ShelterChatSidebar";
 import ShelterChatWindow from "../../components/Shelters/Chat/ShelterChatWindow";
@@ -14,17 +15,16 @@ const ShelterChatPage = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/auth/shelter/profile`, {
-          credentials: "include",
-        });
-        const data = await response.json();
-        if (data.success) {
-          setCurrentUserId(data.profile.shelterId._id);
+        const res = await axiosInstance.get("/api/auth/shelter/profile");
+
+        if (res.data.success) {
+          setCurrentUserId(res.data.profile.shelterId._id);
         }
       } catch (error) {
         console.error("Fetch user ID error:", error);
       }
     };
+
     fetchUserId();
   }, []);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 
 import {
   User,
@@ -100,9 +100,7 @@ const ShelterUpdateProfile = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get(`${API_URL}/api/auth/shelter/profile`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get("/api/auth/shelter/profile");
 
       if (response.data.success) {
         const profileData = response.data.profile;
@@ -163,13 +161,12 @@ const ShelterUpdateProfile = () => {
       const formData = new FormData();
       formData.append("avatar", avatarFile);
 
-      const response = await axios.put(
-        `${API_URL}/api/shelter/profile/avatar`,
+      const response = await axiosInstance.put(
+        "/api/shelter/profile/avatar",
         formData,
         {
-          withCredentials: true,
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -179,7 +176,7 @@ const ShelterUpdateProfile = () => {
         showToast(
           "success",
           "Avatar Updated",
-          "Profile picture updated successfully"
+          "Profile picture updated successfully",
         );
         emit("profile:avatar:updated", { avatar: response.data.avatar });
       }
@@ -188,7 +185,7 @@ const ShelterUpdateProfile = () => {
       showToast(
         "error",
         "Upload Failed",
-        err.response?.data?.message || "Failed to update avatar"
+        err.response?.data?.message || "Failed to update avatar",
       );
     } finally {
       setSaving(false);
@@ -200,10 +197,9 @@ const ShelterUpdateProfile = () => {
     setSaving(true);
 
     try {
-      const response = await axios.put(
-        `${API_URL}/api/shelter/profile`,
+      const response = await axiosInstance.put(
+        "/api/shelter/profile",
         formData,
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -211,7 +207,7 @@ const ShelterUpdateProfile = () => {
         showToast(
           "success",
           "Profile Updated",
-          "Your shelter profile has been updated"
+          "Your shelter profile has been updated",
         );
         emit("profile:updated", { profile: response.data.profile });
       }
@@ -220,7 +216,7 @@ const ShelterUpdateProfile = () => {
       showToast(
         "error",
         "Update Failed",
-        err.response?.data?.message || "Failed to update profile"
+        err.response?.data?.message || "Failed to update profile",
       );
     } finally {
       setSaving(false);
@@ -230,10 +226,9 @@ const ShelterUpdateProfile = () => {
   const handleRequestOTP = async () => {
     try {
       setSendingOtp(true);
-      const response = await axios.post(
-        `${API_URL}/api/shelter/security/request-otp`,
+      const response = await axiosInstance.post(
+        "/api/shelter/security/request-otp",
         {},
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -245,7 +240,7 @@ const ShelterUpdateProfile = () => {
       showToast(
         "error",
         "Error",
-        error.response?.data?.message || "Failed to send OTP"
+        error.response?.data?.message || "Failed to send OTP",
       );
     } finally {
       setSendingOtp(false);
@@ -260,10 +255,9 @@ const ShelterUpdateProfile = () => {
 
     try {
       setVerifyingOtp(true);
-      const response = await axios.post(
-        `${API_URL}/api/shelter/security/verify-otp`,
+      const response = await axiosInstance.post(
+        "/api/shelter/security/verify-otp",
         { otp: securityForm.otp },
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -271,7 +265,7 @@ const ShelterUpdateProfile = () => {
         showToast(
           "success",
           "OTP Verified",
-          "You can now change your password"
+          "You can now change your password",
         );
       }
     } catch (error) {
@@ -279,7 +273,7 @@ const ShelterUpdateProfile = () => {
       showToast(
         "error",
         "Error",
-        error.response?.data?.message || "Invalid OTP"
+        error.response?.data?.message || "Invalid OTP",
       );
     } finally {
       setVerifyingOtp(false);
@@ -304,14 +298,13 @@ const ShelterUpdateProfile = () => {
 
     try {
       setSaving(true);
-      const response = await axios.post(
-        `${API_URL}/api/shelter/security/change-password`,
+      const response = await axiosInstance.post(
+        "/api/shelter/security/change-password",
         {
           otp: securityForm.otp,
           newPassword: securityForm.newPassword,
           confirmPassword: securityForm.confirmPassword,
         },
-        { withCredentials: true }
       );
 
       if (response.data.success) {
@@ -327,7 +320,7 @@ const ShelterUpdateProfile = () => {
       showToast(
         "error",
         "Error",
-        error.response?.data?.message || "Failed to change password"
+        error.response?.data?.message || "Failed to change password",
       );
     } finally {
       setSaving(false);
@@ -336,11 +329,7 @@ const ShelterUpdateProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Heart,
   Calendar,
@@ -51,9 +51,7 @@ const PetDetailsPage = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get(`${API_URL}/api/shelter/pets/${petId}`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get(`/api/shelter/pets/${petId}`);
 
       if (response.data.success) {
         setPet(response.data.data);
@@ -80,10 +78,7 @@ const PetDetailsPage = () => {
 
     setIsDeleting(true);
     try {
-      const response = await axios.delete(
-        `${API_URL}/api/shelter/pets/${petId}`,
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.delete(`/api/shelter/pets/${petId}`);
 
       if (response.data.success) {
         setToast({
@@ -110,11 +105,7 @@ const PetDetailsPage = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -291,8 +282,8 @@ const PetDetailsPage = () => {
                       pet.adoptionStatus === "available"
                         ? "bg-green-500/20 text-green-400 border border-green-500/30"
                         : pet.adoptionStatus === "pending"
-                        ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                        : "bg-blue-500/20 text-blue-400 border border-blue-500/30"
+                          ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                          : "bg-blue-500/20 text-blue-400 border border-blue-500/30"
                     }`}
                   >
                     {pet.adoptionStatus}

@@ -3,6 +3,7 @@ import { ArrowLeft, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import OwnerChatSidebar from "../../components/Owners/Chat/OwnerChatSidebar";
 import OwnerChatWindow from "../../components/Owners/Chat/OwnerChatWindow";
+import axiosInstance from "../../utils/axiosInstance";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -14,12 +15,10 @@ const OwnerChatPage = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/auth/owner/profile`, {
-          credentials: "include",
-        });
-        const data = await response.json();
-        if (data.success) {
-          setCurrentUserId(data.profile.ownerId._id);
+        const response = await axiosInstance.get("/api/auth/owner/profile");
+
+        if (response.data.success) {
+          setCurrentUserId(response.data.profile.ownerId._id);
         }
       } catch (error) {
         console.error("Fetch user ID error:", error);

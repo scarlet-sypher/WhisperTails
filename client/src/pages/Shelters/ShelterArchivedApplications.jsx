@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   ArrowLeft,
   Heart,
@@ -30,12 +30,7 @@ const ShelterArchivedApplications = () => {
   const fetchArchivedApplications = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API_URL}/api/shelter/applications/archived`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axiosInstance.get("/api/shelter/applications/archived");
 
       if (res.data.success) {
         setArchivedApplications(res.data.data);
@@ -50,11 +45,7 @@ const ShelterArchivedApplications = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import Navbar from "../../components/Owners/NavbarOwner";
 import FullPageLoader from "../../Common/FullPageLoader";
 import OwnerToast from "../../Common/OwnerToast";
@@ -33,9 +33,7 @@ const OwnerPets = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/auth/owner/profile`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/auth/owner/profile");
       if (res.data.success) {
         setProfile(res.data.profile);
       }
@@ -53,9 +51,7 @@ const OwnerPets = () => {
 
   const fetchPets = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/owner/pets`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/api/owner/pets");
       if (res.data.success) {
         setPets(res.data.data);
       }
@@ -71,11 +67,7 @@ const OwnerPets = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/api/auth/logout", {});
       window.location.href = "/login";
     } catch (err) {
       console.error("Logout error:", err);
@@ -193,8 +185,8 @@ const OwnerPets = () => {
                         categoryTab === cat.key && topTab === "add"
                           ? "bg-linear-to-r from-[#60519b] to-[#7d6ab8] text-white shadow-lg shadow-[#60519b]/30"
                           : topTab === "view"
-                          ? "text-[#bfc0d1]/40 cursor-not-allowed"
-                          : "text-[#bfc0d1] hover:bg-[#3a3b47] hover:text-white"
+                            ? "text-[#bfc0d1]/40 cursor-not-allowed"
+                            : "text-[#bfc0d1] hover:bg-[#3a3b47] hover:text-white"
                       }`}
                     >
                       {cat.label}
@@ -227,7 +219,7 @@ const OwnerPets = () => {
                               showToast(
                                 "success",
                                 "Success",
-                                "Pet added successfully"
+                                "Pet added successfully",
                               );
                             }
                       }
@@ -252,7 +244,7 @@ const OwnerPets = () => {
                               showToast(
                                 "success",
                                 "Success",
-                                "Lost/Found pet reported successfully"
+                                "Lost/Found pet reported successfully",
                               );
                             }
                       }
@@ -282,7 +274,7 @@ const OwnerPets = () => {
                               showToast(
                                 "success",
                                 "Success",
-                                "Foster pet added successfully"
+                                "Foster pet added successfully",
                               );
                             }
                       }
