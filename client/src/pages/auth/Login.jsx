@@ -522,7 +522,7 @@ const Login = () => {
           .login-layout {
             flex-direction: column !important;
             align-items: center !important;
-            gap: 28px !important;
+            gap: 22px !important;
           }
           .login-mascot {
             min-width: 0 !important;
@@ -533,28 +533,28 @@ const Login = () => {
           }
           .login-card-wrapper {
             width: 100% !important;
-            max-width: 460px !important;
+            max-width: 420px !important;
           }
         }
         @media (max-width: 520px) {
           .login-layout {
-            gap: 20px !important;
-            padding: 12px !important;
+            gap: 16px !important;
+            padding: 10px !important;
           }
           .login-card-inner {
-            padding: 24px 20px 20px !important;
-            border-radius: 18px !important;
+            padding: 20px 16px 18px !important;
+            border-radius: 16px !important;
           }
           .login-mascot-scale {
-            transform: scale(0.82) !important;
+            transform: scale(0.72) !important;
             transform-origin: top center !important;
-            margin-bottom: -30px !important;
+            margin-bottom: -38px !important;
           }
         }
         @media (max-width: 380px) {
           .login-mascot-scale {
-            transform: scale(0.72) !important;
-            margin-bottom: -45px !important;
+            transform: scale(0.63) !important;
+            margin-bottom: -52px !important;
           }
         }
       `}</style>
@@ -568,7 +568,7 @@ const Login = () => {
           position: "relative",
           overflow: "hidden",
           fontFamily: "'Nunito', sans-serif",
-          padding: "20px",
+          padding: "16px",
         }}
       >
         <GradientBackground role={role} />
@@ -605,24 +605,24 @@ const Login = () => {
           onMouseLeave={() => setIsBackHover(false)}
           style={{
             position: "absolute",
-            top: 20,
-            left: 20,
+            top: 18,
+            left: 18,
             display: "flex",
             alignItems: "center",
-            gap: 6,
+            gap: 5,
             background: "rgba(255,255,255,0.06)",
             border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: 10,
-            padding: "8px 14px",
+            borderRadius: 9,
+            padding: "7px 12px",
             color: "rgba(203,213,225,0.82)",
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
             cursor: "pointer",
             transition: "all 0.3s ease",
             zIndex: 20,
           }}
         >
-          <ArrowLeft size={14} /> Back to Home
+          <ArrowLeft size={13} /> Back to Home
         </button>
 
         <div
@@ -630,8 +630,8 @@ const Login = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 40,
-            maxWidth: 960,
+            gap: 32,
+            maxWidth: 860,
             width: "100%",
             animation: "fadeUp 0.7s ease both",
             position: "relative",
@@ -639,7 +639,13 @@ const Login = () => {
           }}
         >
           <div className="login-mascot" style={{ flexShrink: 0 }}>
-            <div className="login-mascot-scale">
+            <div
+              className="login-mascot-scale"
+              style={{
+                transform: "scale(0.85)",
+                transformOrigin: "top center",
+              }}
+            >
               <Mascot
                 mascotState={mascotState}
                 accent={accent}

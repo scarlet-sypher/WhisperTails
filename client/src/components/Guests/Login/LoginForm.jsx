@@ -25,10 +25,10 @@ function inputStyle(focused, accent) {
     width: "100%",
     background: "rgba(255,255,255,0.05)",
     border: `1.5px solid ${focused ? accent.primary : "rgba(255,255,255,0.12)"}`,
-    borderRadius: 12,
-    padding: "12px 44px",
+    borderRadius: 10,
+    padding: "10px 40px",
     color: "#e2e8f0",
-    fontSize: 15,
+    fontSize: 14,
     outline: "none",
     transition: "all 0.3s ease",
     boxShadow: focused
@@ -86,8 +86,8 @@ const LoginForm = ({
         backdropFilter: "blur(28px) saturate(1.5)",
         WebkitBackdropFilter: "blur(28px) saturate(1.5)",
         border: "1px solid rgba(255,255,255,0.09)",
-        borderRadius: 24,
-        padding: "36px 36px 32px",
+        borderRadius: 20,
+        padding: "28px 28px 24px",
         boxShadow: `0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 60px ${accent.glow}`,
         transition: "box-shadow 0.5s ease",
         position: "relative",
@@ -106,7 +106,7 @@ const LoginForm = ({
           opacity: 0.6,
           transition: "background 0.5s ease",
           pointerEvents: "none",
-          borderRadius: "24px 24px 0 0",
+          borderRadius: "20px 20px 0 0",
         }}
       />
 
@@ -116,17 +116,17 @@ const LoginForm = ({
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 10,
-          marginBottom: 24,
+          gap: 9,
+          marginBottom: 20,
           position: "relative",
           zIndex: 2,
         }}
       >
         <div
           style={{
-            width: 42,
-            height: 42,
-            borderRadius: 12,
+            width: 36,
+            height: 36,
+            borderRadius: 10,
             background: `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
             display: "flex",
             alignItems: "center",
@@ -136,14 +136,14 @@ const LoginForm = ({
             flexShrink: 0,
           }}
         >
-          <PawPrint size={20} color="white" strokeWidth={2.5} />
+          <PawPrint size={17} color="white" strokeWidth={2.5} />
         </div>
         <div style={{ position: "relative", zIndex: 2 }}>
           <div
             style={{
               fontFamily: "'Quicksand', sans-serif",
               fontWeight: 700,
-              fontSize: 20,
+              fontSize: 17,
               background: `linear-gradient(135deg, #e2e8f0, ${accent.light})`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -155,7 +155,7 @@ const LoginForm = ({
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 10,
               color: "rgba(148,163,184,0.6)",
               fontWeight: 600,
               letterSpacing: 0.5,
@@ -168,10 +168,10 @@ const LoginForm = ({
 
       <h2
         style={{
-          fontSize: 26,
+          fontSize: 22,
           fontWeight: 900,
           color: "#f1f5f9",
-          marginBottom: 6,
+          marginBottom: 4,
           letterSpacing: -0.5,
           position: "relative",
           zIndex: 2,
@@ -181,9 +181,9 @@ const LoginForm = ({
       </h2>
       <p
         style={{
-          fontSize: 13,
+          fontSize: 12,
           color: "rgba(148,163,184,0.7)",
-          marginBottom: 22,
+          marginBottom: 18,
           fontWeight: 500,
           position: "relative",
           zIndex: 2,
@@ -196,9 +196,9 @@ const LoginForm = ({
         style={{
           display: "flex",
           background: "rgba(0,0,0,0.25)",
-          borderRadius: 12,
-          padding: 4,
-          marginBottom: 22,
+          borderRadius: 10,
+          padding: 3,
+          marginBottom: 18,
           border: "1px solid rgba(255,255,255,0.07)",
           position: "relative",
           zIndex: 2,
@@ -214,17 +214,17 @@ const LoginForm = ({
             onClick={() => setRole(key)}
             style={{
               flex: 1,
-              padding: "9px 0",
-              borderRadius: 9,
+              padding: "7px 0",
+              borderRadius: 8,
               border: "none",
               cursor: "pointer",
               fontFamily: "inherit",
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 6,
+              gap: 5,
               background:
                 role === key
                   ? `linear-gradient(135deg, ${accent.primary}, ${accent.light})`
@@ -236,7 +236,7 @@ const LoginForm = ({
               zIndex: 2,
             }}
           >
-            <Icon size={14} strokeWidth={2.5} /> {label}
+            <Icon size={13} strokeWidth={2.5} /> {label}
           </button>
         ))}
       </div>
@@ -249,26 +249,26 @@ const LoginForm = ({
         }}
         style={{
           width: "100%",
-          padding: "11px 0",
-          marginBottom: 16,
+          padding: "9px 0",
+          marginBottom: 14,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 10,
+          gap: 9,
           background: "rgba(255,255,255,0.06)",
           border: "1.5px solid rgba(255,255,255,0.11)",
-          borderRadius: 12,
+          borderRadius: 10,
           cursor: "pointer",
           color: "#e2e8f0",
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: 14,
+          fontSize: 13,
           transition: "all 0.3s ease",
           position: "relative",
           zIndex: 2,
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 48 48">
+        <svg width="16" height="16" viewBox="0 0 48 48">
           <path
             fill="#FFC107"
             d="M43.6 20H24v8h11.3C33.7 33.3 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.9 6.5 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-8.9 20-20 0-1.3-.1-2.7-.4-4z"
@@ -294,7 +294,7 @@ const LoginForm = ({
           display: "flex",
           alignItems: "center",
           gap: 12,
-          marginBottom: 18,
+          marginBottom: 14,
           position: "relative",
           zIndex: 2,
         }}
@@ -304,7 +304,7 @@ const LoginForm = ({
         />
         <span
           style={{
-            fontSize: 12,
+            fontSize: 11,
             color: "rgba(148,163,184,0.5)",
             fontWeight: 600,
           }}
@@ -319,14 +319,14 @@ const LoginForm = ({
       {message.text && (
         <div
           style={{
-            marginBottom: 16,
-            padding: "10px 14px",
-            borderRadius: 10,
-            fontSize: 13,
+            marginBottom: 14,
+            padding: "9px 12px",
+            borderRadius: 9,
+            fontSize: 12,
             fontWeight: 600,
             display: "flex",
             alignItems: "center",
-            gap: 8,
+            gap: 7,
             background:
               message.type === "error"
                 ? "rgba(239,68,68,0.12)"
@@ -349,7 +349,7 @@ const LoginForm = ({
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 14,
+          gap: 12,
           position: "relative",
           zIndex: 2,
         }}
@@ -358,8 +358,8 @@ const LoginForm = ({
           <label
             style={{
               display: "block",
-              marginBottom: 6,
-              fontSize: 12,
+              marginBottom: 5,
+              fontSize: 11,
               fontWeight: 700,
               color: "rgba(148,163,184,0.8)",
               letterSpacing: 0.5,
@@ -370,7 +370,7 @@ const LoginForm = ({
           </label>
           <div style={{ position: "relative" }}>
             <Mail
-              size={16}
+              size={14}
               color={
                 activeField === "email"
                   ? accent.light
@@ -378,7 +378,7 @@ const LoginForm = ({
               }
               style={{
                 position: "absolute",
-                left: 14,
+                left: 12,
                 top: "50%",
                 transform: "translateY(-50%)",
                 transition: "color 0.3s ease",
@@ -408,12 +408,12 @@ const LoginForm = ({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 6,
+              marginBottom: 5,
             }}
           >
             <label
               style={{
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "rgba(148,163,184,0.8)",
                 letterSpacing: 0.5,
@@ -425,7 +425,7 @@ const LoginForm = ({
             <button
               type="button"
               style={{
-                fontSize: 12,
+                fontSize: 11,
                 color: accent.light,
                 background: "none",
                 border: "none",
@@ -441,7 +441,7 @@ const LoginForm = ({
           </div>
           <div style={{ position: "relative" }}>
             <Lock
-              size={16}
+              size={14}
               color={
                 activeField === "password"
                   ? accent.light
@@ -449,7 +449,7 @@ const LoginForm = ({
               }
               style={{
                 position: "absolute",
-                left: 14,
+                left: 12,
                 top: "50%",
                 transform: "translateY(-50%)",
                 transition: "color 0.3s ease",
@@ -471,7 +471,7 @@ const LoginForm = ({
               maxLength={128}
               style={{
                 ...inputStyle(activeField === "password", accent),
-                paddingRight: 44,
+                paddingRight: 40,
               }}
             />
             <button
@@ -479,7 +479,7 @@ const LoginForm = ({
               onClick={togglePassword}
               style={{
                 position: "absolute",
-                right: 14,
+                right: 12,
                 top: "50%",
                 transform: "translateY(-50%)",
                 background: "none",
@@ -495,7 +495,7 @@ const LoginForm = ({
                 (e.currentTarget.style.color = "rgba(148,163,184,0.55)")
               }
             >
-              {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+              {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
             </button>
           </div>
           {formData.password.length > 0 && (
@@ -509,14 +509,14 @@ const LoginForm = ({
           className="submit-btn"
           style={{
             width: "100%",
-            padding: "13px 0",
-            marginTop: 4,
-            borderRadius: 12,
+            padding: "11px 0",
+            marginTop: 2,
+            borderRadius: 10,
             border: "none",
             cursor: loading ? "not-allowed" : "pointer",
             fontFamily: "inherit",
             fontWeight: 800,
-            fontSize: 15,
+            fontSize: 14,
             background: loading
               ? "rgba(100,116,139,0.4)"
               : `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
@@ -525,7 +525,7 @@ const LoginForm = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 8,
+            gap: 7,
             transition: "all 0.3s ease",
             opacity: loading ? 0.7 : 1,
           }}
@@ -533,7 +533,7 @@ const LoginForm = ({
           {loading ? (
             <>
               <Loader2
-                size={16}
+                size={14}
                 style={{ animation: "spin 1s linear infinite" }}
               />{" "}
               Logging in...
@@ -546,9 +546,9 @@ const LoginForm = ({
 
       <p
         style={{
-          marginTop: 20,
+          marginTop: 16,
           textAlign: "center",
-          fontSize: 13,
+          fontSize: 12,
           color: "rgba(148,163,184,0.6)",
           fontWeight: 500,
           position: "relative",

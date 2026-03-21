@@ -11,10 +11,10 @@ function inputStyle(focused, accent) {
     width: "100%",
     background: "rgba(255,255,255,0.05)",
     border: `1.5px solid ${focused ? accent.primary : "rgba(255,255,255,0.12)"}`,
-    borderRadius: 12,
-    padding: "12px 44px",
+    borderRadius: 10,
+    padding: "10px 40px",
     color: "#e2e8f0",
-    fontSize: 15,
+    fontSize: 14,
     outline: "none",
     transition: "all 0.3s ease",
     boxShadow: focused
@@ -230,10 +230,10 @@ const SignupForm = ({ role, accent, onSuccess }) => {
   const msgBlock = message.text && (
     <div
       style={{
-        marginBottom: 16,
-        padding: "10px 14px",
-        borderRadius: 10,
-        fontSize: 13,
+        marginBottom: 14,
+        padding: "9px 12px",
+        borderRadius: 9,
+        fontSize: 12,
         fontWeight: 600,
         background:
           message.type === "error"
@@ -276,24 +276,24 @@ const SignupForm = ({ role, accent, onSuccess }) => {
         className="auth-google-btn"
         style={{
           width: "100%",
-          padding: "11px 0",
-          marginBottom: 4,
+          padding: "9px 0",
+          marginBottom: 3,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 10,
+          gap: 9,
           background: "rgba(255,255,255,0.06)",
           border: "1.5px solid rgba(255,255,255,0.11)",
-          borderRadius: 12,
+          borderRadius: 10,
           cursor: "pointer",
           color: "#e2e8f0",
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: 14,
+          fontSize: 13,
           transition: "all 0.3s ease",
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 48 48">
+        <svg width="16" height="16" viewBox="0 0 48 48">
           <path
             fill="#FFC107"
             d="M43.6 20H24v8h11.3C33.7 33.3 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.9 6.5 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-8.9 20-20 0-1.3-.1-2.7-.4-4z"
@@ -319,7 +319,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
           display: "flex",
           alignItems: "center",
           gap: 12,
-          margin: "16px 0",
+          margin: "14px 0",
         }}
       >
         <div
@@ -327,7 +327,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
         />
         <span
           style={{
-            fontSize: 12,
+            fontSize: 11,
             color: "rgba(148,163,184,0.5)",
             fontWeight: 600,
           }}
@@ -343,14 +343,14 @@ const SignupForm = ({ role, accent, onSuccess }) => {
 
       <form
         onSubmit={handleSignup}
-        style={{ display: "flex", flexDirection: "column", gap: 14 }}
+        style={{ display: "flex", flexDirection: "column", gap: 12 }}
       >
         <div>
           <label
             style={{
               display: "block",
-              marginBottom: 6,
-              fontSize: 12,
+              marginBottom: 5,
+              fontSize: 11,
               fontWeight: 700,
               color: "rgba(148,163,184,0.8)",
               letterSpacing: 0.5,
@@ -359,10 +359,10 @@ const SignupForm = ({ role, accent, onSuccess }) => {
           >
             Email
           </label>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", gap: 7 }}>
             <div style={{ position: "relative", flex: 1 }}>
               <Mail
-                size={16}
+                size={14}
                 color={
                   activeField === "email"
                     ? accent.light
@@ -370,7 +370,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 }
                 style={{
                   position: "absolute",
-                  left: 14,
+                  left: 12,
                   top: "50%",
                   transform: "translateY(-50%)",
                   pointerEvents: "none",
@@ -391,11 +391,11 @@ const SignupForm = ({ role, accent, onSuccess }) => {
               />
               {isEmailVerified && (
                 <CheckCircle
-                  size={16}
+                  size={14}
                   color="#4ade80"
                   style={{
                     position: "absolute",
-                    right: 14,
+                    right: 12,
                     top: "50%",
                     transform: "translateY(-50%)",
                   }}
@@ -409,25 +409,25 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 onClick={handleEmailCheck}
                 disabled={loading || emailState === "checking"}
                 style={{
-                  padding: "0 18px",
-                  borderRadius: 12,
+                  padding: "0 16px",
+                  borderRadius: 10,
                   border: "none",
                   flexShrink: 0,
                   background: `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
                   color: "white",
                   fontFamily: "inherit",
                   fontWeight: 700,
-                  fontSize: 13,
+                  fontSize: 12,
                   cursor: loading ? "not-allowed" : "pointer",
                   boxShadow: `0 4px 14px ${accent.glow}`,
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  gap: 5,
                 }}
               >
                 {emailState === "checking" ? (
                   <Loader2
-                    size={14}
+                    size={13}
                     style={{ animation: "spin 1s linear infinite" }}
                   />
                 ) : (
@@ -448,15 +448,15 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                   setAgreedToTerms(false);
                 }}
                 style={{
-                  padding: "0 14px",
-                  borderRadius: 12,
+                  padding: "0 12px",
+                  borderRadius: 10,
                   flexShrink: 0,
                   border: "1.5px solid rgba(255,255,255,0.15)",
                   background: "rgba(255,255,255,0.05)",
                   color: "rgba(148,163,184,0.7)",
                   fontFamily: "inherit",
                   fontWeight: 600,
-                  fontSize: 12,
+                  fontSize: 11,
                   cursor: "pointer",
                 }}
               >
@@ -475,15 +475,15 @@ const SignupForm = ({ role, accent, onSuccess }) => {
               "max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease",
             display: "flex",
             flexDirection: "column",
-            gap: 14,
+            gap: 12,
           }}
         >
           <div>
             <label
               style={{
                 display: "block",
-                marginBottom: 6,
-                fontSize: 12,
+                marginBottom: 5,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "rgba(148,163,184,0.8)",
                 letterSpacing: 0.5,
@@ -494,7 +494,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
             </label>
             <div style={{ position: "relative" }}>
               <Lock
-                size={16}
+                size={14}
                 color={
                   activeField === "password"
                     ? accent.light
@@ -502,7 +502,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 }
                 style={{
                   position: "absolute",
-                  left: 14,
+                  left: 12,
                   top: "50%",
                   transform: "translateY(-50%)",
                   pointerEvents: "none",
@@ -522,7 +522,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 minLength={8}
                 style={{
                   ...inputStyle(activeField === "password", accent),
-                  paddingRight: 44,
+                  paddingRight: 40,
                 }}
               />
               <button
@@ -536,7 +536,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 }}
                 style={{
                   position: "absolute",
-                  right: 14,
+                  right: 12,
                   top: "50%",
                   transform: "translateY(-50%)",
                   background: "none",
@@ -547,7 +547,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                   display: "flex",
                 }}
               >
-                {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
             {formData.password.length > 0 && (
@@ -559,8 +559,8 @@ const SignupForm = ({ role, accent, onSuccess }) => {
             <label
               style={{
                 display: "block",
-                marginBottom: 6,
-                fontSize: 12,
+                marginBottom: 5,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "rgba(148,163,184,0.8)",
                 letterSpacing: 0.5,
@@ -571,7 +571,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
             </label>
             <div style={{ position: "relative" }}>
               <Lock
-                size={16}
+                size={14}
                 color={
                   activeField === "confirmPassword"
                     ? accent.light
@@ -579,7 +579,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 }
                 style={{
                   position: "absolute",
-                  left: 14,
+                  left: 12,
                   top: "50%",
                   transform: "translateY(-50%)",
                   pointerEvents: "none",
@@ -598,7 +598,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 required
                 style={{
                   ...inputStyle(activeField === "confirmPassword", accent),
-                  paddingRight: 44,
+                  paddingRight: 40,
                 }}
               />
               <button
@@ -612,7 +612,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                 }}
                 style={{
                   position: "absolute",
-                  right: 14,
+                  right: 12,
                   top: "50%",
                   transform: "translateY(-50%)",
                   background: "none",
@@ -623,18 +623,18 @@ const SignupForm = ({ role, accent, onSuccess }) => {
                   display: "flex",
                 }}
               >
-                {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
             <div
               onClick={() => setAgreedToTerms((p) => !p)}
               style={{
-                width: 18,
-                height: 18,
-                borderRadius: 5,
+                width: 16,
+                height: 16,
+                borderRadius: 4,
                 flexShrink: 0,
                 cursor: "pointer",
                 background: agreedToTerms
@@ -648,12 +648,12 @@ const SignupForm = ({ role, accent, onSuccess }) => {
               }}
             >
               {agreedToTerms && (
-                <span style={{ color: "white", fontSize: 11, fontWeight: 900 }}>
+                <span style={{ color: "white", fontSize: 10, fontWeight: 900 }}>
                   ✓
                 </span>
               )}
             </div>
-            <span style={{ fontSize: 13, color: "rgba(148,163,184,0.8)" }}>
+            <span style={{ fontSize: 12, color: "rgba(148,163,184,0.8)" }}>
               I agree to the{" "}
               <span
                 style={{
@@ -673,14 +673,14 @@ const SignupForm = ({ role, accent, onSuccess }) => {
             className="auth-submit-btn"
             style={{
               width: "100%",
-              padding: "13px 0",
-              marginTop: 4,
-              borderRadius: 12,
+              padding: "11px 0",
+              marginTop: 2,
+              borderRadius: 10,
               border: "none",
               cursor: loading ? "not-allowed" : "pointer",
               fontFamily: "inherit",
               fontWeight: 800,
-              fontSize: 15,
+              fontSize: 14,
               background: loading
                 ? "rgba(100,116,139,0.4)"
                 : `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
@@ -689,7 +689,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 8,
+              gap: 7,
               opacity: loading ? 0.7 : 1,
               transition: "all 0.3s ease",
             }}
@@ -697,7 +697,7 @@ const SignupForm = ({ role, accent, onSuccess }) => {
             {loading ? (
               <>
                 <Loader2
-                  size={16}
+                  size={14}
                   style={{ animation: "spin 1s linear infinite" }}
                 />{" "}
                 Creating Account...
@@ -711,10 +711,10 @@ const SignupForm = ({ role, accent, onSuccess }) => {
         {!isEmailVerified && (
           <p
             style={{
-              fontSize: 12,
+              fontSize: 11,
               color: "rgba(148,163,184,0.45)",
               textAlign: "center",
-              marginTop: 4,
+              marginTop: 3,
             }}
           >
             Verify your email above to continue

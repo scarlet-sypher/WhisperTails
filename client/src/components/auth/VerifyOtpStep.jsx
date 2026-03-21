@@ -13,10 +13,10 @@ function inputStyle(focused, accent = AUTH_ACCENT) {
     width: "100%",
     background: "rgba(255,255,255,0.05)",
     border: `1.5px solid ${focused ? accent.primary : "rgba(255,255,255,0.12)"}`,
-    borderRadius: 12,
-    padding: "12px 16px",
+    borderRadius: 10,
+    padding: "10px 16px",
     color: "#e2e8f0",
-    fontSize: 24,
+    fontSize: 22,
     letterSpacing: 10,
     fontWeight: 800,
     textAlign: "center",
@@ -43,14 +43,14 @@ const VerifyOTP = ({
   return (
     <form
       onSubmit={handleVerifyOTP}
-      style={{ display: "flex", flexDirection: "column", gap: 14 }}
+      style={{ display: "flex", flexDirection: "column", gap: 12 }}
     >
       <p
         style={{
-          fontSize: 13,
+          fontSize: 12,
           color: "rgba(148,163,184,0.65)",
           textAlign: "center",
-          marginBottom: 4,
+          marginBottom: 3,
         }}
       >
         Code sent to{" "}
@@ -63,8 +63,8 @@ const VerifyOTP = ({
         <label
           style={{
             display: "block",
-            marginBottom: 6,
-            fontSize: 12,
+            marginBottom: 5,
+            fontSize: 11,
             fontWeight: 700,
             color: "rgba(148,163,184,0.8)",
             letterSpacing: 0.5,
@@ -94,14 +94,14 @@ const VerifyOTP = ({
         className="auth-submit-btn"
         style={{
           width: "100%",
-          padding: "13px 0",
-          marginTop: 4,
-          borderRadius: 12,
+          padding: "11px 0",
+          marginTop: 2,
+          borderRadius: 10,
           border: "none",
           cursor: loading ? "not-allowed" : "pointer",
           fontFamily: "inherit",
           fontWeight: 800,
-          fontSize: 15,
+          fontSize: 14,
           background: loading
             ? "rgba(100,116,139,0.4)"
             : `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
@@ -110,7 +110,7 @@ const VerifyOTP = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 8,
+          gap: 7,
           opacity: loading ? 0.7 : 1,
           transition: "all 0.3s ease",
         }}
@@ -118,7 +118,7 @@ const VerifyOTP = ({
         {loading ? (
           <>
             <Loader2
-              size={16}
+              size={14}
               style={{ animation: "spin 1s linear infinite" }}
             />{" "}
             Verifying...
@@ -134,13 +134,13 @@ const VerifyOTP = ({
         onClick={handleResendOTP}
         style={{
           width: "100%",
-          padding: "11px 0",
-          borderRadius: 12,
+          padding: "9px 0",
+          borderRadius: 10,
           border: "1.5px solid rgba(255,255,255,0.11)",
           cursor: loading ? "not-allowed" : "pointer",
           fontFamily: "inherit",
           fontWeight: 700,
-          fontSize: 14,
+          fontSize: 13,
           background: "rgba(255,255,255,0.04)",
           color: accent.light,
           display: "flex",
@@ -153,7 +153,7 @@ const VerifyOTP = ({
         Resend OTP
       </button>
 
-      <p style={{ textAlign: "center", marginTop: 4 }}>
+      <p style={{ textAlign: "center", marginTop: 3 }}>
         <button
           type="button"
           onClick={() => setStep(1)}
@@ -162,7 +162,7 @@ const VerifyOTP = ({
             border: "none",
             cursor: "pointer",
             color: "rgba(148,163,184,0.6)",
-            fontSize: 13,
+            fontSize: 12,
             fontFamily: "inherit",
             fontWeight: 600,
             transition: "color 0.2s ease",

@@ -115,7 +115,7 @@ const StepIndicator = ({ step, accent }) => {
         display: "flex",
         alignItems: "center",
         gap: 8,
-        marginBottom: 24,
+        marginBottom: 20,
       }}
     >
       {steps.map((label, i) => {
@@ -134,8 +134,8 @@ const StepIndicator = ({ step, accent }) => {
             >
               <div
                 style={{
-                  width: 28,
-                  height: 28,
+                  width: 26,
+                  height: 26,
                   borderRadius: "50%",
                   background: done
                     ? accent.primary
@@ -146,7 +146,7 @@ const StepIndicator = ({ step, accent }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: 800,
                   color: active || done ? "white" : "rgba(148,163,184,0.5)",
                   boxShadow: active ? `0 0 14px ${accent.glow}` : "none",
@@ -433,16 +433,16 @@ const ForgotPassword = () => {
         .auth-submit-btn:active:not(:disabled) { transform:scale(0.97); }
         .back-btn:hover { background:rgba(255,255,255,0.09) !important; transform:translateX(-3px); }
         @media (max-width:900px) {
-          .fp-layout { flex-direction:column !important; align-items:center !important; gap:28px !important; }
+          .fp-layout { flex-direction:column !important; align-items:center !important; gap:22px !important; }
           .fp-mascot { min-width:0 !important; width:100% !important; display:flex !important; flex-direction:column !important; align-items:center !important; }
-          .fp-card-wrapper { width:100% !important; max-width:460px !important; }
+          .fp-card-wrapper { width:100% !important; max-width:420px !important; }
         }
         @media (max-width:520px) {
-          .fp-layout { gap:20px !important; padding:12px !important; }
-          .fp-mascot-scale { transform:scale(0.82) !important; transform-origin:top center !important; margin-bottom:-30px !important; }
+          .fp-layout { gap:16px !important; padding:10px !important; }
+          .fp-mascot-scale { transform:scale(0.72) !important; transform-origin:top center !important; margin-bottom:-38px !important; }
         }
         @media (max-width:380px) {
-          .fp-mascot-scale { transform:scale(0.72) !important; margin-bottom:-45px !important; }
+          .fp-mascot-scale { transform:scale(0.63) !important; margin-bottom:-52px !important; }
         }
       `}</style>
 
@@ -455,7 +455,7 @@ const ForgotPassword = () => {
           position: "relative",
           overflow: "hidden",
           fontFamily: "'Nunito', sans-serif",
-          padding: "20px",
+          padding: "16px",
         }}
       >
         <GradientBackground />
@@ -490,24 +490,24 @@ const ForgotPassword = () => {
           onMouseLeave={() => setIsBackHover(false)}
           style={{
             position: "absolute",
-            top: 20,
-            left: 20,
+            top: 18,
+            left: 18,
             display: "flex",
             alignItems: "center",
-            gap: 6,
+            gap: 5,
             background: "rgba(255,255,255,0.06)",
             border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: 10,
-            padding: "8px 14px",
+            borderRadius: 9,
+            padding: "7px 12px",
             color: "rgba(203,213,225,0.82)",
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
             cursor: "pointer",
             transition: "all 0.3s ease",
             zIndex: 20,
           }}
         >
-          <ArrowLeft size={14} /> Back to Login
+          <ArrowLeft size={13} /> Back to Login
         </button>
 
         <div
@@ -515,8 +515,8 @@ const ForgotPassword = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 40,
-            maxWidth: 960,
+            gap: 32,
+            maxWidth: 860,
             width: "100%",
             animation: "fadeUp 0.7s ease both",
             position: "relative",
@@ -524,7 +524,13 @@ const ForgotPassword = () => {
           }}
         >
           <div className="fp-mascot" style={{ flexShrink: 0 }}>
-            <div className="fp-mascot-scale">
+            <div
+              className="fp-mascot-scale"
+              style={{
+                transform: "scale(0.85)",
+                transformOrigin: "top center",
+              }}
+            >
               <Mascot
                 mascotState={mascotState}
                 accent={ACCENT}
@@ -552,8 +558,8 @@ const ForgotPassword = () => {
                 backdropFilter: "blur(28px) saturate(1.5)",
                 WebkitBackdropFilter: "blur(28px) saturate(1.5)",
                 border: "1px solid rgba(255,255,255,0.09)",
-                borderRadius: 24,
-                padding: "36px 36px 32px",
+                borderRadius: 20,
+                padding: "28px 28px 24px",
                 boxShadow: `0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 60px ${ACCENT.glow}`,
                 position: "relative",
                 overflow: "visible",
@@ -570,7 +576,7 @@ const ForgotPassword = () => {
                   background: `linear-gradient(90deg,transparent,${ACCENT.light},transparent)`,
                   opacity: 0.6,
                   pointerEvents: "none",
-                  borderRadius: "24px 24px 0 0",
+                  borderRadius: "20px 20px 0 0",
                 }}
               />
 
@@ -578,15 +584,15 @@ const ForgotPassword = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 10,
-                  marginBottom: 24,
+                  gap: 9,
+                  marginBottom: 20,
                 }}
               >
                 <div
                   style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 12,
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
                     flexShrink: 0,
                     background: `linear-gradient(135deg,${ACCENT.primary},${ACCENT.light})`,
                     display: "flex",
@@ -596,8 +602,8 @@ const ForgotPassword = () => {
                   }}
                 >
                   <svg
-                    width="20"
-                    height="20"
+                    width="17"
+                    height="17"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="white"
@@ -616,7 +622,7 @@ const ForgotPassword = () => {
                     style={{
                       fontFamily: "'Quicksand',sans-serif",
                       fontWeight: 700,
-                      fontSize: 20,
+                      fontSize: 17,
                       background: `linear-gradient(135deg,#e2e8f0,${ACCENT.light})`,
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -626,7 +632,7 @@ const ForgotPassword = () => {
                   </div>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 10,
                       color: "rgba(148,163,184,0.6)",
                       fontWeight: 600,
                       letterSpacing: 0.5,
@@ -641,10 +647,10 @@ const ForgotPassword = () => {
 
               <h2
                 style={{
-                  fontSize: 26,
+                  fontSize: 22,
                   fontWeight: 900,
                   color: "#f1f5f9",
-                  marginBottom: 6,
+                  marginBottom: 4,
                   letterSpacing: -0.5,
                 }}
               >
@@ -652,9 +658,9 @@ const ForgotPassword = () => {
               </h2>
               <p
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   color: "rgba(148,163,184,0.7)",
-                  marginBottom: 22,
+                  marginBottom: 18,
                   fontWeight: 500,
                 }}
               >
@@ -664,10 +670,10 @@ const ForgotPassword = () => {
               {message.text && (
                 <div
                   style={{
-                    marginBottom: 16,
-                    padding: "10px 14px",
-                    borderRadius: 10,
-                    fontSize: 13,
+                    marginBottom: 14,
+                    padding: "9px 12px",
+                    borderRadius: 9,
+                    fontSize: 12,
                     fontWeight: 600,
                     background:
                       message.type === "error"

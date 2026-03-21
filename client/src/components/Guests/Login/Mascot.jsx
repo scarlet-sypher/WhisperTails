@@ -113,9 +113,9 @@ const Mascot = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 16,
+        gap: 12,
         flexShrink: 0,
-        minWidth: 280,
+        minWidth: 240,
       }}
     >
       <ThoughtBubble

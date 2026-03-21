@@ -15,10 +15,10 @@ function inputStyle(focused, accent = AUTH_ACCENT) {
     width: "100%",
     background: "rgba(255,255,255,0.05)",
     border: `1.5px solid ${focused ? accent.primary : "rgba(255,255,255,0.12)"}`,
-    borderRadius: 12,
-    padding: "12px 44px",
+    borderRadius: 10,
+    padding: "10px 40px",
     color: "#e2e8f0",
-    fontSize: 15,
+    fontSize: 14,
     outline: "none",
     transition: "all 0.3s ease",
     boxShadow: focused
@@ -34,7 +34,7 @@ const EyeToggle = ({ show, onToggle, accent = AUTH_ACCENT }) => (
     onClick={onToggle}
     style={{
       position: "absolute",
-      right: 14,
+      right: 12,
       top: "50%",
       transform: "translateY(-50%)",
       background: "none",
@@ -50,7 +50,7 @@ const EyeToggle = ({ show, onToggle, accent = AUTH_ACCENT }) => (
       (e.currentTarget.style.color = "rgba(148,163,184,0.55)")
     }
   >
-    {show ? <EyeOff size={16} /> : <Eye size={16} />}
+    {show ? <EyeOff size={14} /> : <Eye size={14} />}
   </button>
 );
 
@@ -91,14 +91,14 @@ const ResetPassword = ({
   return (
     <form
       onSubmit={handleResetPassword}
-      style={{ display: "flex", flexDirection: "column", gap: 14 }}
+      style={{ display: "flex", flexDirection: "column", gap: 12 }}
     >
       <div>
         <label
           style={{
             display: "block",
-            marginBottom: 6,
-            fontSize: 12,
+            marginBottom: 5,
+            fontSize: 11,
             fontWeight: 700,
             color: "rgba(148,163,184,0.8)",
             letterSpacing: 0.5,
@@ -109,11 +109,11 @@ const ResetPassword = ({
         </label>
         <div style={{ position: "relative" }}>
           <Lock
-            size={16}
+            size={14}
             color={focusedNew ? accent.light : "rgba(148,163,184,0.45)"}
             style={{
               position: "absolute",
-              left: 14,
+              left: 12,
               top: "50%",
               transform: "translateY(-50%)",
               pointerEvents: "none",
@@ -138,7 +138,7 @@ const ResetPassword = ({
             placeholder="Enter new password"
             required
             minLength={8}
-            style={{ ...inputStyle(focusedNew, accent), paddingRight: 44 }}
+            style={{ ...inputStyle(focusedNew, accent), paddingRight: 40 }}
           />
           <EyeToggle show={showNew} onToggle={toggleNew} accent={accent} />
         </div>
@@ -151,8 +151,8 @@ const ResetPassword = ({
         <label
           style={{
             display: "block",
-            marginBottom: 6,
-            fontSize: 12,
+            marginBottom: 5,
+            fontSize: 11,
             fontWeight: 700,
             color: "rgba(148,163,184,0.8)",
             letterSpacing: 0.5,
@@ -163,11 +163,11 @@ const ResetPassword = ({
         </label>
         <div style={{ position: "relative" }}>
           <Lock
-            size={16}
+            size={14}
             color={focusedConfirm ? accent.light : "rgba(148,163,184,0.45)"}
             style={{
               position: "absolute",
-              left: 14,
+              left: 12,
               top: "50%",
               transform: "translateY(-50%)",
               pointerEvents: "none",
@@ -185,7 +185,7 @@ const ResetPassword = ({
             onBlur={() => setFocusedConfirm(false)}
             placeholder="Confirm new password"
             required
-            style={{ ...inputStyle(focusedConfirm, accent), paddingRight: 44 }}
+            style={{ ...inputStyle(focusedConfirm, accent), paddingRight: 40 }}
           />
           <EyeToggle
             show={showConfirm}
@@ -201,14 +201,14 @@ const ResetPassword = ({
         className="auth-submit-btn"
         style={{
           width: "100%",
-          padding: "13px 0",
-          marginTop: 4,
-          borderRadius: 12,
+          padding: "11px 0",
+          marginTop: 2,
+          borderRadius: 10,
           border: "none",
           cursor: loading ? "not-allowed" : "pointer",
           fontFamily: "inherit",
           fontWeight: 800,
-          fontSize: 15,
+          fontSize: 14,
           background: loading
             ? "rgba(100,116,139,0.4)"
             : `linear-gradient(135deg, ${accent.primary}, ${accent.light})`,
@@ -217,7 +217,7 @@ const ResetPassword = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 8,
+          gap: 7,
           opacity: loading ? 0.7 : 1,
           transition: "all 0.3s ease",
         }}
@@ -225,7 +225,7 @@ const ResetPassword = ({
         {loading ? (
           <>
             <Loader2
-              size={16}
+              size={14}
               style={{ animation: "spin 1s linear infinite" }}
             />{" "}
             Resetting...

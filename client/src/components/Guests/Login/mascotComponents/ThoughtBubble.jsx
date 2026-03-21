@@ -63,15 +63,15 @@ const ThoughtBubble = ({ msg, visible, accent, state }) => {
                   : "#e2e8f0";
 
   const dots = [
-    { sz: 6, b: -7, l: "47%" },
-    { sz: 4, b: -14, l: "44%" },
-    { sz: 3, b: -20, l: "41%" },
+    { sz: 5, b: -6, l: "47%" },
+    { sz: 3.5, b: -12, l: "44%" },
+    { sz: 2.5, b: -17, l: "41%" },
   ];
 
   return (
     <div
       style={{
-        width: 250,
+        width: 220,
         position: "relative",
         opacity: visible ? 1 : 0,
         transform: visible
@@ -103,8 +103,8 @@ const ThoughtBubble = ({ msg, visible, accent, state }) => {
           backdropFilter: "blur(22px)",
           WebkitBackdropFilter: "blur(22px)",
           border: `1px solid ${borderColor}`,
-          borderRadius: 22,
-          padding: "16px 22px",
+          borderRadius: 18,
+          padding: "13px 18px",
           boxShadow: `0 10px 40px rgba(0,0,0,0.25), 0 0 28px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.07)`,
           transition: "border-color 0.4s ease, box-shadow 0.4s ease",
           position: "relative",
@@ -123,7 +123,7 @@ const ThoughtBubble = ({ msg, visible, accent, state }) => {
         />
         <div
           style={{
-            fontSize: 13.5,
+            fontSize: 12.5,
             fontWeight: 700,
             color: textColor,
             letterSpacing: 0.15,
@@ -137,10 +137,10 @@ const ThoughtBubble = ({ msg, visible, accent, state }) => {
         </div>
         <div
           style={{
-            fontSize: 11,
+            fontSize: 10,
             fontWeight: 500,
             color: "rgba(148,163,184,0.52)",
-            marginTop: 5,
+            marginTop: 4,
             letterSpacing: 0.4,
             textAlign: "center",
           }}
