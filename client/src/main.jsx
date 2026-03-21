@@ -7,8 +7,6 @@ import "./index.css";
 import App from "./App.jsx";
 
 import Login from "./pages/auth/Login.jsx";
-import SignupShelter from "./pages/auth/SignupShelter.jsx";
-import SignupOwner from "./pages/auth/SignupOwner.jsx";
 import OwnerDashboard from "./pages/Owners/OwnerDashboard.jsx";
 import ShelterDashboard from "./pages/Shelters/ShelterDashboard.jsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
@@ -35,6 +33,7 @@ import OwnerArchivedApplicationDetail from "./pages/Owners/OwnerArchivedApplicat
 import ShelterArchivedApplications from "./pages/Shelters/ShelterArchivedApplications.jsx";
 import OwnerPets from "./pages/Owners/OwnerPets.jsx";
 import ShelterPetManagement from "./pages/Shelters/ShelterPetManagement.jsx";
+import UnifiedSignup from "./pages/auth/UnifiedSignup.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -43,28 +42,24 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signupShelter" element={<SignupShelter />} />
-          <Route path="/signupOwner" element={<SignupOwner />} />
+          <Route path="/signupOwner" element={<UnifiedSignup />} />
+          <Route path="/signupShelter" element={<UnifiedSignup />} />
           <Route path="/owner-dashboard" element={<OwnerDashboard />} />
           <Route path="/shelter-dashboard" element={<ShelterDashboard />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/signup" element={<Signup />} />
-
           <Route
             path="/owner-update-profile"
             element={<OwnerUpdateProfile />}
           />
-
           <Route
             path="/shelter-update-profile"
             element={<ShelterUpdateProfile />}
           />
-
           <Route path="/add-pet" element={<ShelterPetAdd />} />
           <Route path="/my-pets" element={<ShelterPetView />} />
           <Route path="/shelter/pets/:petId" element={<PetDetailsPage />} />
           <Route path="/adopt-pet" element={<OwnerAdoptPet />} />
-
           <Route
             path="/applications-shelter"
             element={<ShelterApplications />}
@@ -78,43 +73,34 @@ createRoot(document.getElementById("root")).render(
             path="/applications-owner/rejected/:applicationId"
             element={<RejectedApplicationDetail />}
           />
-
           <Route path="/owner-chat" element={<OwnerChatRoom />} />
           <Route path="/shelter-chat" element={<ShelterChatRoom />} />
           <Route
             path="/schedule-meeting-shelter"
             element={<ShelterMeetings />}
           />
-
           <Route path="/owner-meetings" element={<OwnerMeetings />} />
-
           <Route
             path="/application-journey-shelter"
             element={<ShelterApplicationJourney />}
           />
-
           <Route
             path="/applications-owner/application/:applicationId"
             element={<OwnerApplicationDetail />}
           />
-
           <Route path="/applications-owner" element={<OwnerMyApplications />} />
-
           <Route
             path="/applications-owner/archived"
             element={<OwnerArchivedApplications />}
           />
-
           <Route
             path="/application-journey-owner"
             element={<OwnerApplicationJourney />}
           />
-
           <Route
             path="/applications-owner/archived/:applicationId"
             element={<OwnerArchivedApplicationDetail />}
           />
-
           <Route
             path="/applications-shelter/archived"
             element={<ShelterArchivedApplications />}
@@ -127,5 +113,5 @@ createRoot(document.getElementById("root")).render(
         </Routes>
       </BrowserRouter>
     </SocketProvider>
-  </StrictMode>
+  </StrictMode>,
 );
