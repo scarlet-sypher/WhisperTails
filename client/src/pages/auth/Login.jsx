@@ -557,11 +557,20 @@ const Login = () => {
             margin-bottom: -52px !important;
           }
         }
+        .whisper-gradient {
+          background: linear-gradient(135deg, #e2e8f0, var(--accent-light));
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+          isolation: isolate;
+        }
       `}</style>
 
       <div
         style={{
           minHeight: "100vh",
+          "--accent-light": accent.light,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

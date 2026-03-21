@@ -140,15 +140,11 @@ const LoginForm = ({
         </div>
         <div style={{ position: "relative", zIndex: 2 }}>
           <div
+            className="whisper-gradient"
             style={{
               fontFamily: "'Quicksand', sans-serif",
               fontWeight: 700,
               fontSize: 17,
-              background: `linear-gradient(135deg, #e2e8f0, ${accent.light})`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              transition: "all 0.5s ease",
-              backgroundColor: "transparent",
             }}
           >
             WhisperTails

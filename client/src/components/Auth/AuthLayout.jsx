@@ -265,6 +265,17 @@ export const AUTH_STYLES = `
   @media (max-width:380px) {
     .auth-mascot-scale { transform:scale(0.72) !important; margin-bottom:-45px !important; }
   }
+    .whisper-gradient-auth {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      background: linear-gradient(135deg, #e2e8f0, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      isolation: isolate;
+    }
 `;
 
 export function inputStyle(focused, accent = AUTH_ACCENT) {
@@ -371,18 +382,7 @@ export const AuthLogo = ({ accent = AUTH_ACCENT }) => (
       <PawPrint size={20} color="white" strokeWidth={2.5} />
     </div>
     <div>
-      <div
-        style={{
-          fontFamily: "'Quicksand', sans-serif",
-          fontWeight: 700,
-          fontSize: 20,
-          background: `linear-gradient(135deg, #e2e8f0, ${accent.light})`,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        WhisperTails
-      </div>
+      <div className="whisper-gradient-auth">WhisperTails</div>
       <div
         style={{
           fontSize: 11,

@@ -212,6 +212,21 @@ const UnifiedSignup = () => {
         @media (max-width: 380px) {
           .signup-mascot-scale { transform:scale(0.63) !important; margin-bottom:-52px !important; }
         }
+          @keyframes fadeIn {
+            from { opacity:0; }
+            to   { opacity:1; }
+          }
+          .whisper-gradient-signup {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 17px;
+            background: linear-gradient(135deg, #e2e8f0, var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            isolation: isolate;
+          }
       `}</style>
 
       <div
@@ -223,6 +238,7 @@ const UnifiedSignup = () => {
           position: "relative",
           overflow: "hidden",
           fontFamily: "'Nunito', sans-serif",
+          "--accent-light": accent.light,
           padding: "16px",
         }}
       >
@@ -374,19 +390,7 @@ const UnifiedSignup = () => {
                   <PawPrint size={17} color="white" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div
-                    style={{
-                      fontFamily: "'Quicksand', sans-serif",
-                      fontWeight: 700,
-                      fontSize: 17,
-                      background: `linear-gradient(135deg, #e2e8f0, ${accent.light})`,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      transition: "all 0.5s ease",
-                    }}
-                  >
-                    WhisperTails
-                  </div>
+                  <div className="whisper-gradient-signup">WhisperTails</div>
                   <div
                     style={{
                       fontSize: 10,
