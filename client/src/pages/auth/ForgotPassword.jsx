@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import Mascot from "../../components/Guests/Login/Mascot";
@@ -6,6 +6,8 @@ import WalkingCats from "../../components/Guests/Login/cats/WalkingCats";
 import RequestOtp from "../../components/auth/RequestOtpStep";
 import VerifyOTP from "../../components/auth/VerifyOtpStep";
 import ResetPassword from "../../components/auth/ResetPasswordStep";
+// ← NEW: import EmailJS service
+import { sendForgotPasswordOTP } from "../../utils/emailjsService";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -246,6 +248,11 @@ const ForgotPassword = () => {
         { withCredentials: true },
       );
       if (data.success) {
+        try {
+          await sendForgotPasswordOTP(formData.email, data.otp);
+        } catch (ejsErr) {
+          console.error("EmailJS failed:", ejsErr.text);
+        }
         setMessage({
           type: "success",
           text: "OTP sent to your email. Please check your inbox.",
@@ -341,8 +348,14 @@ const ForgotPassword = () => {
         { email: formData.email },
         { withCredentials: true },
       );
-      if (data.success)
+      if (data.success) {
+        try {
+          await sendForgotPasswordOTP(formData.email, data.otp);
+        } catch (ejsErr) {
+          console.error("EmailJS resend failed:", ejsErr);
+        }
         setMessage({ type: "success", text: "New OTP sent to your email" });
+      }
     } catch (err) {
       console.error("Resend OTP error:", err);
       setMessage({

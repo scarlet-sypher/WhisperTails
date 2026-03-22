@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Mail, Lock, Eye, EyeOff, Loader2, CheckCircle } from "lucide-react";
 import { scorePassword } from "../../Guests/Login/Mascot";
 import OTPScreen from "./OTPScreen";
+// ← NEW: import EmailJS service
+import { sendVerificationOTP } from "../../../utils/emailjsService";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -151,6 +153,15 @@ const SignupForm = ({ role, accent, onSuccess }) => {
         { withCredentials: true },
       );
       if (data.success) {
+        try {
+          await sendVerificationOTP(
+            formData.email,
+            data.otp,
+            role === "owner" ? "New Owner" : "New Shelter",
+          );
+        } catch (ejsErr) {
+          console.error("EmailJS send failed:", ejsErr);
+        }
         setIsOTPSent(true);
         setMessage({ type: "success", text: data.message });
       }
@@ -207,8 +218,18 @@ const SignupForm = ({ role, accent, onSuccess }) => {
         { email: formData.email },
         { withCredentials: true },
       );
-      if (data.success)
+      if (data.success) {
+        try {
+          await sendVerificationOTP(
+            formData.email,
+            data.otp,
+            role === "owner" ? "Owner" : "Shelter",
+          );
+        } catch (ejsErr) {
+          console.error("EmailJS resend failed:", ejsErr);
+        }
         setMessage({ type: "success", text: "New OTP sent to your email!" });
+      }
     } catch (err) {
       setErr(err.response?.data?.message || "Failed to resend OTP");
     } finally {

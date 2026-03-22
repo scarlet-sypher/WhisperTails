@@ -21,6 +21,8 @@ import FullPageLoader from "../../Common/FullPageLoader";
 import { useNotificationSocket } from "../../../hooks/useSocket";
 import defaultAvatar from "../../assets/Owner/default-owner.png";
 
+import { sendPasswordChangeOTP } from "../../utils/emailjsService";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const OwnerUpdateProfile = () => {
@@ -29,7 +31,6 @@ const OwnerUpdateProfile = () => {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
 
-  // Personal Details State
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -48,7 +49,6 @@ const OwnerUpdateProfile = () => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
-  // Security State
   const [securityForm, setSecurityForm] = useState({
     otp: "",
     newPassword: "",
@@ -125,7 +125,6 @@ const OwnerUpdateProfile = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = [
       "image/jpeg",
       "image/jpg",
@@ -142,7 +141,6 @@ const OwnerUpdateProfile = () => {
       return;
     }
 
-    // Validate file size (2MB)
     if (file.size > 2 * 1024 * 1024) {
       setToast({
         type: "error",
@@ -250,6 +248,16 @@ const OwnerUpdateProfile = () => {
       );
 
       if (response.data.success) {
+        try {
+          await sendPasswordChangeOTP(
+            profile.email,
+            response.data.otp,
+            profile.name || "Owner",
+          );
+        } catch (ejsErr) {
+          console.error("EmailJS failed:", ejsErr);
+        }
+
         setOtpSent(true);
         setToast({
           type: "success",
@@ -528,7 +536,6 @@ const OwnerUpdateProfile = () => {
                 </h2>
 
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {/* Name */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Full Name
@@ -550,7 +557,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   </div>
 
-                  {/* Email (Read-only) */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Email Address
@@ -572,7 +578,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   </div>
 
-                  {/* Phone */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Phone Number
@@ -594,7 +599,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   </div>
 
-                  {/* Role (Read-only) */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Role
@@ -616,7 +620,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   </div>
 
-                  {/* Address - Full Width */}
                   <div className="sm:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Address
@@ -638,7 +641,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   </div>
 
-                  {/* Bio - Full Width */}
                   <div className="sm:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                       Bio
@@ -653,7 +655,6 @@ const OwnerUpdateProfile = () => {
                   </div>
                 </div>
 
-                {/* Save Button */}
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={handleSaveProfile}
@@ -680,7 +681,6 @@ const OwnerUpdateProfile = () => {
           {/* Security Tab */}
           {activeTab === "security" && (
             <div className="space-y-6 animate-fadeIn">
-              {/* Google Login Warning */}
               {profile.mode === "google" &&
                 !profile.passwordChanged &&
                 profile.tempPassword && (
@@ -712,7 +712,6 @@ const OwnerUpdateProfile = () => {
                   </div>
                 )}
 
-              {/* Change Password Section */}
               <div className="rounded-2xl border border-[#60519b]/20 bg-[#31323e] p-6 md:p-8">
                 <h2 className="mb-6 text-xl font-bold text-white flex items-center gap-3">
                   <Lock size={24} className="text-[#60519b]" />
@@ -720,7 +719,6 @@ const OwnerUpdateProfile = () => {
                 </h2>
 
                 <div className="space-y-6">
-                  {/* Step 1: Request OTP */}
                   {!otpSent && (
                     <div>
                       <p className="mb-4 text-sm text-[#bfc0d1]">
@@ -744,7 +742,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   )}
 
-                  {/* Step 2: Verify OTP */}
                   {otpSent && !otpVerified && (
                     <div>
                       <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
@@ -789,7 +786,6 @@ const OwnerUpdateProfile = () => {
                     </div>
                   )}
 
-                  {/* Step 3: Change Password */}
                   {otpVerified && (
                     <>
                       <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-green-500/20 border border-green-500/30">
@@ -800,7 +796,6 @@ const OwnerUpdateProfile = () => {
                       </div>
 
                       <div className="grid gap-6 sm:grid-cols-2">
-                        {/* New Password */}
                         <div>
                           <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                             New Password
@@ -841,7 +836,6 @@ const OwnerUpdateProfile = () => {
                           </div>
                         </div>
 
-                        {/* Confirm Password */}
                         <div>
                           <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                             Confirm Password

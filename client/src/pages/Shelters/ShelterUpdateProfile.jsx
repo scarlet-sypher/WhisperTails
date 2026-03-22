@@ -27,6 +27,8 @@ import ShelterToast from "../../Common/ShelterToast";
 import { useSocket } from "../../../hooks/useSocket";
 import defaultAvatar from "../../assets/Shelter/default-shelter.png";
 
+import { sendPasswordChangeOTP } from "../../utils/emailjsService";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const ShelterUpdateProfile = () => {
@@ -73,7 +75,6 @@ const ShelterUpdateProfile = () => {
   useEffect(() => {
     fetchProfile();
 
-    // Listen for real-time updates
     const unsubProfile = on("profile:updated", (data) => {
       setProfile(data.profile);
       showToast("success", "Profile Updated", "Changes synced in real-time");
@@ -232,6 +233,16 @@ const ShelterUpdateProfile = () => {
       );
 
       if (response.data.success) {
+        try {
+          await sendPasswordChangeOTP(
+            profile?.email,
+            response.data.otp,
+            profile?.name || "Shelter",
+          );
+        } catch (ejsErr) {
+          console.error("EmailJS failed:", ejsErr);
+        }
+
         setOtpSent(true);
         showToast("success", "OTP Sent", "Check your email for the OTP code");
       }
@@ -456,7 +467,6 @@ const ShelterUpdateProfile = () => {
 
               {/* Profile Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Basic Information */}
                 <div className="rounded-2xl border border-[#4a5568]/20 bg-[#31323e] p-6">
                   <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
                     <User size={20} />
@@ -464,7 +474,6 @@ const ShelterUpdateProfile = () => {
                   </h2>
 
                   <div className="space-y-4">
-                    {/* Email (Read-only) */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <Mail size={16} />
@@ -481,7 +490,6 @@ const ShelterUpdateProfile = () => {
                       />
                     </div>
 
-                    {/* Name */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <Shield size={16} />
@@ -497,7 +505,6 @@ const ShelterUpdateProfile = () => {
                       />
                     </div>
 
-                    {/* Phone */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <Phone size={16} />
@@ -513,7 +520,6 @@ const ShelterUpdateProfile = () => {
                       />
                     </div>
 
-                    {/* Address */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <MapPin size={16} />
@@ -531,7 +537,6 @@ const ShelterUpdateProfile = () => {
                   </div>
                 </div>
 
-                {/* Professional Details */}
                 <div className="rounded-2xl border border-[#4a5568]/20 bg-[#31323e] p-6">
                   <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
                     <Award size={20} />
@@ -539,7 +544,6 @@ const ShelterUpdateProfile = () => {
                   </h2>
 
                   <div className="space-y-4">
-                    {/* Specialization */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <Award size={16} />
@@ -555,7 +559,6 @@ const ShelterUpdateProfile = () => {
                       />
                     </div>
 
-                    {/* Experience */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <TrendingUp size={16} />
@@ -572,7 +575,6 @@ const ShelterUpdateProfile = () => {
                       />
                     </div>
 
-                    {/* Capacity */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <Users size={16} />
@@ -593,7 +595,6 @@ const ShelterUpdateProfile = () => {
                       </p>
                     </div>
 
-                    {/* Bio */}
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#bfc0d1]">
                         <FileText size={16} />
@@ -611,7 +612,6 @@ const ShelterUpdateProfile = () => {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <div className="flex justify-end gap-4">
                   <button
                     type="button"
@@ -635,7 +635,6 @@ const ShelterUpdateProfile = () => {
 
           {activeTab === "security" && (
             <div className="space-y-6">
-              {/* Google Login Warning */}
               {profileMode === "google" && !passwordChanged && tempPassword && (
                 <div className="rounded-xl border border-red-500/30 bg-linear-to-r from-red-500/15 via-red-500/10 to-transparent p-6">
                   <div className="flex gap-4">
@@ -665,7 +664,6 @@ const ShelterUpdateProfile = () => {
                 </div>
               )}
 
-              {/* Change Password Section */}
               <div className="rounded-2xl border border-[#4a5568]/20 bg-[#31323e] p-6 md:p-8">
                 <h2 className="mb-6 text-xl font-bold text-white flex items-center gap-3">
                   <Lock size={24} className="text-[#4a5568]" />
@@ -696,7 +694,6 @@ const ShelterUpdateProfile = () => {
                     </div>
                   )}
 
-                  {/* Step 2: Verify OTP */}
                   {otpSent && !otpVerified && (
                     <div>
                       <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
@@ -741,7 +738,6 @@ const ShelterUpdateProfile = () => {
                     </div>
                   )}
 
-                  {/* Step 3: Change Password */}
                   {otpVerified && (
                     <>
                       <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-green-500/20 border border-green-500/30">
@@ -752,7 +748,6 @@ const ShelterUpdateProfile = () => {
                       </div>
 
                       <div className="grid gap-6 sm:grid-cols-2">
-                        {/* New Password */}
                         <div>
                           <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                             New Password
@@ -793,7 +788,6 @@ const ShelterUpdateProfile = () => {
                           </div>
                         </div>
 
-                        {/* Confirm Password */}
                         <div>
                           <label className="mb-2 block text-sm font-medium text-[#bfc0d1]">
                             Confirm Password
